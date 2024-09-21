@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Management - Blockchain Bookings</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #1E1E1E;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 2px solid #00FFEA;
+        }
+
+        header .logo h1 {
+            font-size: 42px;
+            font-weight: bold;
+            color: #00FFEA;
+        }
+
+        /* 添加的导航栏样式 */
+        nav ul {
+            list-style: none;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: #00FFEA;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #FFD700;
+        }
+
+        .content {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #2D2D2D;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 255, 234, 0.2);
+        }
+
+        h2 {
+            color: #00FFEA;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        table, th, td {
+            border: 1px solid #00FFEA;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #00FFEA;
+            color: #121212;
+        }
+
+        td {
+            background-color: #333;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            background-color: #00FFEA;
+            color: #121212;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 255, 234, 0.5);
+        }
+
+        .btn:hover {
+            background-color: #FFD700;
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(255, 215, 0, 0.6);
+        }
+
+        .btn-cancel {
+            background-color: #FF4C4C;
+        }
+
+        .btn-cancel:hover {
+            background-color: #FF3333;
+        }
+
+        footer {
+            background-color: #1E1E1E;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-top: 2px solid #00FFEA;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <h1>Order Management</h1>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li> <!-- 添加Home导航栏 -->
+        </ul>
+    </nav>
+</header>
+
+<div class="content">
+    <h2>Your Booked Services</h2>
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Service Type</th>
+            <th>Start Date & Time</th>
+            <th>End Date & Time</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        <tr>
+            <td>#12345</td>
+            <td>Travel Companion</td>
+            <td>21/09/2024, 12:30 pm</td>
+            <td>21/09/2024, 6:30 pm</td>
+            <td>Confirmed</td>
+            <td>
+                <a href="view-order.html" class="btn">View</a>
+            </td>
+        </tr>
+        <tr>
+            <td>#67890</td>
+            <td>Food Tour</td>
+            <td>22/09/2024, 10:00 am</td>
+            <td>22/09/2024, 1:00 pm</td>
+            <td>In Progress</td>
+            <td>
+                <a href="view-order.html" class="btn">View</a>
+                <a href="cancel-order.html" class="btn btn-cancel">Cancel</a>
+            </td>
+        </tr>
+        <!-- More orders can be listed here -->
+    </table>
+
+</div>
+
+<footer>
+    <p>&copy; 2024 EcoChain. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

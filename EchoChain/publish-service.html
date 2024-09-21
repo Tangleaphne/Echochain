@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publish Your Service</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #1E1E1E;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 2px solid #00FFEA;
+        }
+
+        header .logo h1 {
+            font-size: 42px;
+            font-weight: bold;
+            color: #00FFEA;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #2D2D2D;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 255, 234, 0.2);
+        }
+
+        .form-container h2 {
+            color: #FFD700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form label {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #FFD700;
+        }
+
+        form input, form textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 12px 30px;
+            background-color: #00FFEA;
+            color: #121212;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 0 auto;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 255, 234, 0.5);
+        }
+
+        button:hover {
+            background-color: #FFD700;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+        }
+
+        /* 图片预览 */
+        .image-preview {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <h1>Publish Your Service</h1>
+    </div>
+</header>
+
+<div class="form-container">
+    <h2>Fill in Your Service Details</h2>
+    <form action="submit-service.php" method="POST" enctype="multipart/form-data">
+        <label for="wallet-address">Wallet Address:</label>
+        <input type="text" id="wallet-address" name="wallet_address" required placeholder="Enter your crypto wallet address">
+
+        <label for="provider-name">Your Name:</label>
+        <input type="text" id="provider-name" name="provider_name" required placeholder="Enter your name">
+
+        <label for="provider-description">Personal Bio:</label>
+        <textarea id="provider-description" name="provider_description" rows="6" required placeholder="Briefly describe yourself"></textarea>
+
+        <label for="price">Price (ETH):</label>
+        <input type="number" id="price" name="price" required step="0.01" placeholder="Enter price in ETH per hour">
+
+        <!-- 图片上传部分 -->
+        <label for="image-upload">Upload Your Profile Image:</label>
+        <input type="file" id="image-upload" name="image" accept="image/*" onchange="previewImage(event)">
+
+        <!-- 图片预览部分 -->
+        <div class="image-preview" id="image-preview">
+            <img id="preview" src="#" alt="Your Image" style="display: none;">
+        </div>
+
+        <button type="submit">Publish Service</button>
+    </form>
+</div>
+
+<script>
+    // 预览图片的功能
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function(){
+            const preview = document.getElementById('preview');
+            preview.src = reader.result;
+            preview.style.display = 'block'; // 显示图片
+        }
+        reader.readAsDataURL(event.target.files[0]); // 读取图片文件
+    }
+</script>
+<footer>
+    <p>&copy; 2024 EcoChain. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

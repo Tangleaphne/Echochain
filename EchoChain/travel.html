@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultural Tours - Service Providers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #1E1E1E;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 2px solid #00FFEA;
+        }
+
+        header .logo h1 {
+            font-size: 42px;
+            font-weight: bold;
+            color: #00FFEA;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: #00FFEA;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #FFD700;
+        }
+
+        /* Hero 部分带有倾斜图片的背景 */
+        .hero {
+            height: 400px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            overflow: hidden;
+            background-color: #121212;
+        }
+
+        .hero-content h2 {
+            font-size: 48px;
+            z-index: 10; /* 确保文字位于最前面 */
+            margin-bottom: 20px;
+            color: #00FFEA;
+            text-shadow: 2px 2px 8px rgba(0, 255, 234, 0.8);
+        }
+
+       /* 图片背景部分 */
+       .hero-images {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            overflow: hidden;
+            z-index: 1; /* 确保图片在文字下方 */
+        }
+
+        .hero-images img {
+            width: 250px;
+            height: 350px;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            opacity: 0.8; /* 使图片透明度降低，突出文字 */
+        }
+        /* 不同图片的不同倾斜角度 */
+        .hero-images img:nth-child(1) {
+            transform: rotate(-10deg);
+        }
+
+        .hero-images img:nth-child(2) {
+            transform: rotate(10deg);
+        }
+
+        .hero-images img:nth-child(3) {
+            transform: rotate(-20deg);
+        }
+
+        .hero-images img:nth-child(4) {
+            transform: rotate(15deg);
+            z-index: 1;
+        }
+
+
+
+        /* 悬停时旋转回正并放大 */
+        .hero-images img:hover {
+            transform: rotate(0deg) scale(1.1);
+            box-shadow: 0 12px 24px rgba(0, 255, 255, 0.5);
+            opacity: 1;
+        }
+
+        .content {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #00FFEA;
+        }
+
+        .provider-list {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .provider-item {
+            background-color: #2D2D2D;
+            padding: 20px;
+            margin: 20px;
+            width: 22%;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            text-align: left;
+        }
+
+        .provider-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 30px rgba(0, 255, 234, 0.5);
+        }
+
+        .provider-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .provider-item h3 {
+            font-size: 22px;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .provider-item p {
+            font-size: 16px;
+            color: #ccc;
+        }
+
+        .provider-item .price {
+            font-size: 18px;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #00FFEA;
+            color: #121212;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 255, 234, 0.5);
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background-color: #FFD700;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+        }
+
+        footer {
+            background-color: #1E1E1E;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-top: 2px solid #00FFEA;
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        /* 设置Hero部分的基本样式 */
+        .hero {
+            height: 400px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            overflow: hidden;
+            background-color: #121212;
+        }
+
+        /* Hero content - 确保文字内容在图片之上 */
+        .hero-content {
+            position: relative;
+            z-index: 10; /* 高 z-index 确保文字显示在图片之上 */
+        }
+
+        .hero-content h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #00FFEA;
+            text-shadow: 2px 2px 8px rgba(0, 255, 234, 0.8);
+        }
+
+        /* 图片背景部分 */
+        .hero-images {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            overflow: hidden;
+            z-index: 1; /* 确保图片在文字下方 */
+        }
+
+        .hero-images img {
+            width: 250px;
+            height: 350px;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            opacity: 0.8; /* 使图片透明度降低，突出文字 */
+        }
+
+        /* 悬停时旋转回正并放大 */
+        .hero-images img:hover {
+            transform: rotate(0deg) scale(1.1);
+            box-shadow: 0 12px 24px rgba(0, 255, 255, 0.5);
+            opacity: 1;
+        }
+        /* 单独为 Home 链接设置额外的间距 */
+        nav ul li a:first-child {
+                    margin-top: 10px; /* 控制 Home 链接向下移动 */
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <h1>Travel Companion</h1>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="publish-service.html" class="btn">Publish Service</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <h2>Meet Our Expert Guides</h2>
+    </div>
+    <div class="hero-images">
+        <img src="travel1.jpg" alt="Travel Image 1">
+        <img src="travel2.jpg" alt="Travel Image 2">
+        <img src="travel3.jpg" alt="Travel Image 3">
+        <img src="travel4.jpg" alt="Travel Image 4">
+    </div>
+</section>
+
+<section class="content">
+    <h2>Meet Our Expert Guides</h2>
+    <div class="provider-list">
+        <div class="provider-item">
+            <img src="1.jpg" alt="Guide 1">
+            <h3>John Zhang</h3>
+            <p>Expert in photography, highly familiar with cultural sites, friendly and passionate.</p>
+            <p class="price">Price: 0.06 ETH/hour</p>
+            <a href="booking.html" class="btn">Book Now</a>
+        </div>
+        <div class="provider-item">
+            <img src="2.jpg" alt="Guide 2">
+            <h3>Nina Lee</h3>
+            <p>Experienced in cultural tours, exceptional communication, knows the best local food spots.</p>
+            <p class="price">Price: 0.08 ETH/hour</p>
+            <a href="booking.html" class="btn">Book Now</a>
+        </div>
+        <div class="provider-item">
+            <img src="3.jpg" alt="Guide 3">
+            <h3>David Wang</h3>
+            <p>Skilled in outdoor photography, knows the hidden gems, energetic and full of stories.</p>
+            <p class="price">Price: 0.07 ETH/hour</p>
+            <a href="booking.html" class="btn">Book Now</a>
+        </div>
+        <div class="provider-item">
+            <img src="4.jpeg" alt="Guide 4">
+            <h3>Emily Chen</h3>
+            <p>Art and history expert, loves to explain the cultural significance of local heritage.</p>
+            <p class="price">Price: 0.05 ETH/hour</p>
+            <a href="booking.html" class="btn">Book Now</a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2024 EcoChain. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

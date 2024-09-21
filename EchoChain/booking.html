@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking - Blockchain Enabled</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #1E1E1E;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 2px solid #00FFEA;
+        }
+
+        header .logo h1 {
+            font-size: 42px;
+            font-weight: bold;
+            color: #00FFEA;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: #00FFEA;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #FFD700;
+        }
+
+        .content {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #00FFEA;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #1E1E1E;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 255, 234, 0.2);
+        }
+
+        .form-container form label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #FFD700;
+        }
+
+        .form-container form input, .form-container form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #2D2D2D;
+            color: #fff;
+            border: 1px solid #00FFEA;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-container form input:focus, .form-container form textarea:focus {
+            border-color: #FFD700;
+            outline: none;
+        }
+
+        .form-container form button {
+            padding: 12px 30px;
+            background-color: #00FFEA;
+            color: #121212;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 255, 234, 0.5);
+            width: 100%;
+        }
+
+        .form-container form button:hover {
+            background-color: #FFD700;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+        }
+
+        .metamask-btn {
+            padding: 12px 30px;
+            background-color: #f6851b;
+            color: white;
+            border-radius: 30px;
+            cursor: pointer;
+            border: none;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            background-color: #1E1E1E;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-top: 2px solid #00FFEA;
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <h1>Cultural Tours - Blockchain Booking</h1>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="publish-service.html">Publish Service</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="content">
+    <h2>Book Your Service Securely with Blockchain Technology</h2>
+    <div class="form-container">
+        <form action="submit-booking.php" method="POST">
+
+            <label for="wallet">Wallet Address</label>
+            <input type="text" id="walletAddress" name="wallet" readonly required>
+
+            <label for="tour">Tour Type</label>
+            <input type="text" id="tour" name="tour" value="Travel Companion" readonly>
+
+            <label for="start-date">Start Date & Time:</label>
+            <input type="datetime-local" id="start-date" name="start_date" required>
+
+            <label for="end-date">End Date & Time:</label>
+            <input type="datetime-local" id="end-date" name="end_date" required>
+
+            <button type="submit">Submit Booking</button>
+        </form>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2024 EcoChain. All rights reserved.</p>
+</footer>
+
+<script>
+    // 检测是否安装了 MetaMask
+    document.getElementById('connectWalletBtn').addEventListener('click', async function () {
+        if (typeof window.ethereum !== 'undefined') {
+            try {
+                // 请求 MetaMask 连接
+                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                const account = accounts[0];
+                document.getElementById('walletAddress').value = account;
+                alert('Wallet connected: ' + account);
+            } catch (error) {
+                console.error("Error connecting to MetaMask: ", error);
+            }
+        } else {
+            alert('MetaMask not found. Please install MetaMask extension.');
+        }
+    });
+</script>
+
+</body>
+</html>
