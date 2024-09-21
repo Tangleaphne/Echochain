@@ -25,7 +25,6 @@
             color: #00FFEA;
         }
 
-        /* 添加的导航栏样式 */
         nav ul {
             list-style: none;
             padding: 10px;
@@ -61,6 +60,46 @@
             color: #00FFEA;
             text-align: center;
             margin-bottom: 30px;
+        }
+
+        /* 轴的样式 */
+        .toggle-axis {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .toggle-axis div {
+            width: 50%;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .toggle-axis div.left {
+            border-right: 2px solid #00FFEA;
+        }
+
+        .toggle-axis div:hover {
+            background-color: #00FFEA;
+            color: #121212;
+        }
+
+        /* 选中时的样式 */
+        .selected {
+            background-color: #FFD700;
+            color: #121212;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .active {
+            display: block;
         }
 
         table {
@@ -134,51 +173,105 @@
     </div>
     <nav>
         <ul>
-            <li><a href="index.html">Home</a></li> <!-- 添加Home导航栏 -->
+            <li><a href="index.html">Home</a></li>
         </ul>
     </nav>
 </header>
 
 <div class="content">
-    <h2>Your Booked Services</h2>
-    <table>
-        <tr>
-            <th>Order ID</th>
-            <th>Service Type</th>
-            <th>Start Date & Time</th>
-            <th>End Date & Time</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-        <tr>
-            <td>#12345</td>
-            <td>Travel Companion</td>
-            <td>21/09/2024, 12:30 pm</td>
-            <td>21/09/2024, 6:30 pm</td>
-            <td>Confirmed</td>
-            <td>
-                <a href="view-order.html" class="btn">View</a>
-            </td>
-        </tr>
-        <tr>
-            <td>#67890</td>
-            <td>Food Tour</td>
-            <td>22/09/2024, 10:00 am</td>
-            <td>22/09/2024, 1:00 pm</td>
-            <td>In Progress</td>
-            <td>
-                <a href="view-order.html" class="btn">View</a>
-                <a href="cancel-order.html" class="btn btn-cancel">Cancel</a>
-            </td>
-        </tr>
-        <!-- More orders can be listed here -->
-    </table>
+    <h2>Your Orders</h2>
+
+    <!-- 选择轴 -->
+    <div class="toggle-axis">
+        <div class="left selected" id="providerTab" onclick="showSection('provider')">Service Provider</div>
+        <div class="right" id="receiverTab" onclick="showSection('receiver')">Service Receiver</div>
+    </div>
+
+    <!-- 服务者订单表格 -->
+    <div id="provider" class="content-section active">
+        <h3>Orders as a Service Provider</h3>
+        <table>
+            <tr>
+                <th>Order ID</th>
+                <th>Service Type</th>
+                <th>Start Date & Time</th>
+                <th>End Date & Time</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            <tr>
+                <td>#12345</td>
+                <td>Guide Service</td>
+                <td>23/09/2024, 09:00 am</td>
+                <td>23/09/2024, 2:00 pm</td>
+                <td>Confirmed</td>
+                <td>
+                    <a href="view-order.html" class="btn">View</a>
+                </td>
+            </tr>
+            <!-- More orders as a service provider -->
+        </table>
+    </div>
+
+    <!-- 被服务者订单表格 -->
+    <div id="receiver" class="content-section">
+        <h3>Orders as a Service Receiver</h3>
+        <table>
+            <tr>
+                <th>Order ID</th>
+                <th>Service Type</th>
+                <th>Start Date & Time</th>
+                <th>End Date & Time</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            <tr>
+                <td>#67890</td>
+                <td>Food Tour</td>
+                <td>22/09/2024, 10:00 am</td>
+                <td>22/09/2024, 1:00 pm</td>
+                <td>In Progress</td>
+                <td>
+                    <a href="view-order.html" class="btn">View</a>
+                    <a href="cancel-order.html" class="btn btn-cancel">Cancel</a>
+                </td>
+            </tr>
+            <!-- More orders as a service receiver -->
+        </table>
+    </div>
 
 </div>
 
 <footer>
     <p>&copy; 2024 EcoChain. All rights reserved.</p>
 </footer>
+
+<script>
+    // 切换视图并更改选中区域的颜色
+    function showSection(section) {
+        var providerSection = document.getElementById('provider');
+        var receiverSection = document.getElementById('receiver');
+        var providerTab = document.getElementById('providerTab');
+        var receiverTab = document.getElementById('receiverTab');
+
+        // 隐藏所有部分
+        providerSection.classList.remove('active');
+        receiverSection.classList.remove('active');
+
+        // 移除选中状态
+        providerTab.classList.remove('selected');
+        receiverTab.classList.remove('selected');
+
+        // 显示所选部分并标记为选中
+        if (section === 'provider') {
+            providerSection.classList.add('active');
+            providerTab.classList.add('selected');
+        } else if (section === 'receiver') {
+            receiverSection.classList.add('active');
+            receiverTab.classList.add('selected');
+        }
+    }
+</script>
 
 </body>
 </html>
