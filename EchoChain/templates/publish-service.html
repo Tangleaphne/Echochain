@@ -88,6 +88,15 @@
             height: auto;
             border-radius: 10px;
         }
+        .success-message {
+            display: none; /* Initially hidden */
+            background-color: #4CAF50; /* Green background */
+            color: white; /* White text */
+            padding: 15px; /* Some padding */
+            margin-bottom: 20px; /* Margin below message */
+            border-radius: 5px; /* Rounded corners */
+            text-align: center; /* Center align text */
+        }
 
     </style>
 </head>
@@ -125,6 +134,8 @@
 
         <button type="button" onclick="createGuider()">Publish Service</button>
     </form>
+    <br>
+    <div class="success-message" id="successMessage">Your service has been published successfully!</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
@@ -270,6 +281,11 @@
             const guiderName = receipt.events.GuiderPublish.returnValues.name;
             console.log("guider address:", guiderAddress);
             console.log("guider name", guiderName);
+
+            // Show success message
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block'; // Show the success message
+        
        })
         .on('error', function(error, receipt) {
             console.error('An error occurred:', error);
