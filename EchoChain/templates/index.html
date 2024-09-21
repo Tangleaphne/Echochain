@@ -241,18 +241,27 @@
     <section id="services" class="services">
         <h2>Our Services</h2>
         <div class="service-list">
-            <div class="service-item" onclick="location.href='travel.html';" style="cursor: pointer;">
-                <h3>Travel Companion</h3>
-                <p>Enjoy personalized travel experiences with a local guide, helping you explore new places with ease and comfort.</p>
-            </div>
-            <div class="service-item" onclick="location.href='food-tours.html';" style="cursor: pointer;">
-                <h3>Food Tours</h3>
-                <p>Discover local flavors and hidden culinary gems, while being guided through the best restaurants and food spots.</p>
-            </div>
-            <div class="service-item" onclick="location.href='medical.html';" style="cursor: pointer;">
-                <h3>Medical Assistance</h3>
-                <p>Get professional assistance during medical visits, from translation services to support with appointments and checkups.</p>
-            </div>
+            <form action="{{ url_for('travel') }}" method="post" class="service-item" style="cursor: pointer;">
+                <input type="hidden" name="t" value="travel">
+                <button type="submit">
+                    <h3>Travel Companion</h3>
+                    <p>Enjoy personalized travel experiences with a local guide, helping you explore new places with ease and comfort.</p>
+                </button>
+            </form>
+            <form action="{{ url_for('food_tours') }}" method="post" class="service-item" style="cursor: pointer;">
+                <input type="hidden" name="type" value="food_tours">
+                <button type="submit">
+                    <h3>Food Tours</h3>
+                    <p>Discover local flavors and hidden culinary gems, while being guided through the best restaurants and food spots.</p>
+                </button>
+            </form>
+            <form action="{{ url_for('medical') }}" method="post" class="service-item" style="cursor: pointer;">
+                <input type="hidden" name="type" value="medical">
+                <button type="submit">
+                    <h3>Medical Assistance</h3>
+                    <p>Get professional assistance during medical visits, from translation services to support with appointments and checkups.</p>
+                </button>
+            </form>
         </div>
     </section>
 
@@ -262,17 +271,17 @@
         <h2>Top Guides</h2>
         <div class="guide-list">
             <div class="guide-item">
-                <img src="1.jpg" alt="Guide 1">
+                <img src="{{ url_for('static', filename='1.jpg')}}" alt="Guide 1">
                 <h3>John Zhang</h3>
                 <p>Expert in cultural and historical tours.</p>
             </div>
             <div class="guide-item">
-                <img src="2.jpg" alt="Guide 2">
+                <img src="{{ url_for('static', filename='2.jpg')}}" alt="Guide 2">
                 <h3>Nina Lee</h3>
                 <p>Specializes in food and shopping experiences.</p>
             </div>
             <div class="guide-item">
-                <img src="3.jpg" alt="Guide 3">
+                <img src="{{ url_for('static', filename='3.jpg')}}" alt="Guide 3">
                 <h3>David Wang</h3>
                 <p>Outdoor adventure guide and exploration expert.</p>
             </div>
@@ -299,5 +308,10 @@
         <p>&copy; 2024 EchoChain. All rights reserved.</p>
     </footer>
 
+    <script>
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+    </script>
 </body>
 </html>

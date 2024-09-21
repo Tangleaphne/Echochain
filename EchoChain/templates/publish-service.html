@@ -123,11 +123,159 @@
             <img id="preview" src="#" alt="Your Image" style="display: none;">
         </div>
 
-        <button type="submit">Publish Service</button>
+        <button type="button" onclick="createGuider()">Publish Service</button>
     </form>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
 <script>
+    const contractAddress = "0x6eca86f8A08E2690c6B9996063eAEe0AE3679EBd";
+    const contractABI = [
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "guider",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			}
+		],
+		"name": "GuiderPublish",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_type",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_description",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_price_per_hour",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_imglink",
+				"type": "string"
+			}
+		],
+		"name": "publishGuider",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "guiderCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "guiders",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "guidertype",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "guider_address",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "guider_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "price_per_hour",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "imglink",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+    const web3 = new Web3(Web3.givenProvider);
+	const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+    async function createGuider() {
+        const accounts = await web3.eth.requestAccounts(); 
+        console.log(accounts);
+
+        const guideType = "travel";
+        const guideAddress = document.getElementById("wallet-address").value.trim();
+        const guiderName = document.getElementById("provider-name").value.trim();
+        const description = document.getElementById("provider-description").value.trim();
+        const price = document.getElementById("price").value.trim();
+        const imgLink = "static/1.jpg";
+
+        contract.methods.publishGuider(
+            guideType,
+            guiderName,
+            description,
+            price,
+            imgLink
+        )
+        .send({ from: accounts[0] })
+        .on('receipt', function(receipt) {
+            console.log('Issue receipt:', receipt);
+            const guiderAddress = receipt.events.GuiderPublish.returnValues.guider;
+            const guiderName = receipt.events.GuiderPublish.returnValues.name;
+            console.log("guider address:", guiderAddress);
+            console.log("guider name", guiderName);
+       })
+        .on('error', function(error, receipt) {
+            console.error('An error occurred:', error);
+        });
+    }
+
     // 预览图片的功能
     function previewImage(event) {
         const reader = new FileReader();

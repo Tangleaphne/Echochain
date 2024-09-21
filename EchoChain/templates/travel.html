@@ -298,7 +298,12 @@
     <nav>
         <ul>
             <li><a href="index.html">Home</a></li>
-            <li><a href="publish-service.html" class="btn">Publish Service</a></li>
+            <li>
+                <form action="{{ url_for('publish_service') }}" method="post" style="display: inline;">
+                    <input type="hidden" name="q" value="{{ t }}"> <!-- The `t` variable should be available in your template -->
+                    <button type="submit" class="btn">Publish Service</button>
+                </form>
+            </li>
         </ul>
     </nav>
 </header>
@@ -308,10 +313,10 @@
         <h2>Meet Our Expert Guides</h2>
     </div>
     <div class="hero-images">
-        <img src="travel1.jpg" alt="Travel Image 1">
-        <img src="travel2.jpg" alt="Travel Image 2">
-        <img src="travel3.jpg" alt="Travel Image 3">
-        <img src="travel4.jpg" alt="Travel Image 4">
+        <img src="{{ url_for('static', filename='travel1.jpg')}}" alt="Travel Image 1">
+        <img src="{{ url_for('static', filename='travel2.jpg')}}" alt="Travel Image 2">
+        <img src="{{ url_for('static', filename='travel3.jpg')}}" alt="Travel Image 3">
+        <img src="{{ url_for('static', filename='travel4.jpg')}}" alt="Travel Image 4">
     </div>
 </section>
 
@@ -319,28 +324,33 @@
     <h2>Meet Our Expert Guides</h2>
     <div class="provider-list">
         <div class="provider-item">
-            <img src="1.jpg" alt="Guide 1">
+            <img src="{{ url_for('static', filename='1.jpg')}}" alt="Guide 1">
             <h3>John Zhang</h3>
             <p>Expert in photography, highly familiar with cultural sites, friendly and passionate.</p>
             <p class="price">Price: 0.06 ETH/hour</p>
-            <a href="booking.html" class="btn">Book Now</a>
+            <form action="{{ url_for('booking') }}" method="post">
+                <button type="submit">
+                    <input type="hidden" name="q" value="{{t}}">
+                    <a class="btn">Book Now</a>
+                </button>
+            </form>
         </div>
         <div class="provider-item">
-            <img src="2.jpg" alt="Guide 2">
+            <img src="{{ url_for('static', filename='2.jpg')}}" alt="Guide 2">
             <h3>Nina Lee</h3>
             <p>Experienced in cultural tours, exceptional communication, knows the best local food spots.</p>
             <p class="price">Price: 0.08 ETH/hour</p>
             <a href="booking.html" class="btn">Book Now</a>
         </div>
         <div class="provider-item">
-            <img src="3.jpg" alt="Guide 3">
+            <img src="{{ url_for('static', filename='3.jpg')}}" alt="Guide 3">
             <h3>David Wang</h3>
             <p>Skilled in outdoor photography, knows the hidden gems, energetic and full of stories.</p>
             <p class="price">Price: 0.07 ETH/hour</p>
             <a href="booking.html" class="btn">Book Now</a>
         </div>
         <div class="provider-item">
-            <img src="4.jpeg" alt="Guide 4">
+            <img src="{{ url_for('static', filename='4.jpeg')}}" alt="Guide 4">
             <h3>Emily Chen</h3>
             <p>Art and history expert, loves to explain the cultural significance of local heritage.</p>
             <p class="price">Price: 0.05 ETH/hour</p>
