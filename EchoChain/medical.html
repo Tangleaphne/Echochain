@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medical Assistance - Service Providers</title>
+    <title>Cultural Tours - Service Providers</title>
     <style>
         * {
             margin: 0;
@@ -31,12 +31,13 @@
             color: #00FFEA;
             letter-spacing: 2px;
         }
+
         nav ul {
             list-style: none;
             padding: 10px;
             display: flex;
-            justify-content: center;  /* 水平居中 */
-            align-items: center;      /* 垂直居中 */
+            justify-content: center;
+            align-items: center;
         }
 
         nav ul li {
@@ -54,26 +55,74 @@
             color: #FFD700;
         }
 
-        /* 单独为 Home 链接设置额外的间距 */
-        nav ul li a:first-child {
-            margin-top: 10px; /* 控制 Home 链接向下移动 */
-        }
-
+        /* Hero 部分带有倾斜图片的背景 */
         .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://source.unsplash.com/1600x900/?hospital,medical') no-repeat center center/cover;
             height: 400px;
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
             color: #fff;
             text-align: center;
+            overflow: hidden;
+            background-color: #121212;
         }
 
         .hero-content h2 {
             font-size: 48px;
+            z-index: 10; /* 确保文字位于最前面 */
             margin-bottom: 20px;
             color: #00FFEA;
             text-shadow: 2px 2px 8px rgba(0, 255, 234, 0.8);
+        }
+
+       /* 图片背景部分 */
+       .hero-images {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            overflow: hidden;
+            z-index: 1; /* 确保图片在文字下方 */
+        }
+
+        .hero-images img {
+            width: 250px;
+            height: 350px;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            opacity: 0.8; /* 使图片透明度降低，突出文字 */
+        }
+        /* 不同图片的不同倾斜角度 */
+        .hero-images img:nth-child(1) {
+            transform: rotate(-10deg);
+        }
+
+        .hero-images img:nth-child(2) {
+            transform: rotate(10deg);
+        }
+
+        .hero-images img:nth-child(3) {
+            transform: rotate(-20deg);
+        }
+
+        .hero-images img:nth-child(4) {
+            transform: rotate(15deg);
+            z-index: 1;
+        }
+
+
+
+        /* 悬停时旋转回正并放大 */
+        .hero-images img:hover {
+            transform: rotate(0deg) scale(1.1);
+            box-shadow: 0 12px 24px rgba(0, 255, 255, 0.5);
+            opacity: 1;
         }
 
         .content {
@@ -111,9 +160,9 @@
 
         .provider-item img {
             width: 100%;
-            height: 200px; /* Set a fixed height to ensure the image is a square */
-            object-fit: cover; /* This ensures the image covers the entire container without stretching */
-            border-radius: 10px; /* Slightly rounded corners */
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
             margin-bottom: 15px;
         }
 
@@ -166,6 +215,78 @@
         footer p {
             margin: 0;
         }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        /* 设置Hero部分的基本样式 */
+        .hero {
+            height: 400px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            overflow: hidden;
+            background-color: #121212;
+        }
+
+        /* Hero content - 确保文字内容在图片之上 */
+        .hero-content {
+            position: relative;
+            z-index: 10; /* 高 z-index 确保文字显示在图片之上 */
+        }
+
+        .hero-content h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #00FFEA;
+            text-shadow: 2px 2px 8px rgba(0, 255, 234, 0.8);
+        }
+
+        /* 图片背景部分 */
+        .hero-images {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            overflow: hidden;
+            z-index: 1; /* 确保图片在文字下方 */
+        }
+
+        .hero-images img {
+            width: 250px;
+            height: 350px;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            opacity: 0.8; /* 使图片透明度降低，突出文字 */
+        }
+
+        /* 悬停时旋转回正并放大 */
+        .hero-images img:hover {
+            transform: rotate(0deg) scale(1.1);
+            box-shadow: 0 12px 24px rgba(0, 255, 255, 0.5);
+            opacity: 1;
+        }
+        /* 单独为 Home 链接设置额外的间距 */
+        nav ul li a:first-child {
+                    margin-top: 10px; /* 控制 Home 链接向下移动 */
+        }
     </style>
 </head>
 <body>
@@ -182,9 +303,16 @@
     </nav>
 </header>
 
+
 <section class="hero">
     <div class="hero-content">
         <h2>Professional Medical Assistance & Support</h2>
+    </div>
+    <div class="hero-images">
+        <img src="medical1.jpg" alt="Travel Image 1">
+        <img src="medical2.jpg" alt="Travel Image 2">
+        <img src="medical3.jpg" alt="Travel Image 3">
+        <img src="medical4.jpg" alt="Travel Image 4">
     </div>
 </section>
 
@@ -228,3 +356,4 @@
 
 </body>
 </html>
+
