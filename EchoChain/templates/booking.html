@@ -139,6 +139,16 @@
         footer p {
             margin: 0;
         }
+
+        .success-message {
+            display: none; /* Initially hidden */
+            background-color: #4CAF50; /* Green background */
+            color: white; /* White text */
+            padding: 15px; /* Some padding */
+            margin-bottom: 20px; /* Margin below message */
+            border-radius: 5px; /* Rounded corners */
+            text-align: center; /* Center align text */
+        }
     </style>
 </head>
 <body>
@@ -161,7 +171,7 @@
         <form action="submit-booking.php" method="POST">
 
             <label for="wallet">Wallet Address</label>
-            <input type="text" id="walletAddress" name="wallet" readonly required>
+            <input type="text" id="walletAddress" name="wallet" required>
 
             <label for="tour">Tour Type</label>
             <input type="text" id="tour" name="tour" value="Travel Companion" readonly>
@@ -172,8 +182,10 @@
             <label for="end-date">End Date & Time:</label>
             <input type="datetime-local" id="end-date" name="end_date" required>
 
-            <button type="submit">Submit Booking</button>
+            <button type="button" onclick="createOrder()">Submit Booking</button>
         </form>
+        <br>
+        <div class="success-message" id="successMessage">Your order has been created successfully!</div>
     </div>
 </section>
 
@@ -181,23 +193,159 @@
     <p>&copy; 2024 EcoChain. All rights reserved.</p>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
 <script>
-    // 检测是否安装了 MetaMask
-    document.getElementById('connectWalletBtn').addEventListener('click', async function () {
-        if (typeof window.ethereum !== 'undefined') {
-            try {
-                // 请求 MetaMask 连接
-                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-                const account = accounts[0];
-                document.getElementById('walletAddress').value = account;
-                alert('Wallet connected: ' + account);
-            } catch (error) {
-                console.error("Error connecting to MetaMask: ", error);
-            }
-        } else {
-            alert('MetaMask not found. Please install MetaMask extension.');
-        }
-    });
+    const contractAddress = "0x6eca86f8A08E2690c6B9996063eAEe0AE3679EBd";
+    const contractABI = [
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "guider",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			}
+		],
+		"name": "GuiderPublish",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_type",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_description",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_price_per_hour",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_imglink",
+				"type": "string"
+			}
+		],
+		"name": "publishGuider",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "guiderCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "guiders",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "guidertype",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "guider_address",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "guider_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "price_per_hour",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "imglink",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+    const web3 = new Web3(Web3.givenProvider);
+	const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+    async function createOrder() {
+        const accounts = await web3.eth.requestAccounts(); 
+        console.log(accounts);
+
+        const guideType = "travel";
+        const guideAddress = "1";
+        const guiderName = "1";
+        const description = "1";
+        const price = "1";
+        const imgLink = "static/1.jpg";
+
+        contract.methods.publishGuider(
+            guideType,
+            guiderName,
+            description,
+            price,
+            imgLink
+        )
+        .send({ from: accounts[0] })
+        .on('receipt', function(receipt) {
+            console.log('Issue receipt:', receipt);
+            const guiderAddress = receipt.events.GuiderPublish.returnValues.guider;
+            const guiderName = receipt.events.GuiderPublish.returnValues.name;
+            console.log("guider address:", guiderAddress);
+            console.log("guider name", guiderName);
+
+            // Show success message
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block'; // Show the success message
+        
+       })
+        .on('error', function(error, receipt) {
+            console.error('An error occurred:', error);
+        });
+    }
 </script>
 
 </body>

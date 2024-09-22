@@ -264,7 +264,7 @@
         const guideAddress = document.getElementById("wallet-address").value.trim();
         const guiderName = document.getElementById("provider-name").value.trim();
         const description = document.getElementById("provider-description").value.trim();
-        const price = document.getElementById("price").value.trim();
+        const price = document.getElementById("price").value.trim()*100;
         const imgLink = "static/1.jpg";
 
         contract.methods.publishGuider(
