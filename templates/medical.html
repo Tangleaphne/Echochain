@@ -298,7 +298,7 @@
     <nav>
         <ul>
             <li><a href="{{ url_for('index') }}">Home</a></li>
-            <li><a href="publish-service.html" class="btn">Publish Service</a></li>
+            <li><a href="{{ url_for('publish_service') }}" class="btn">Publish Service</a></li>
         </ul>
     </nav>
 </header>
@@ -324,28 +324,28 @@
             <h3>Dr. John Smith</h3>
             <p>Experienced in medical consultations and patient support, providing translation services.</p>
             <p class="price">Price: 0.15 ETH/hour</p>
-            <a href="booking.html" class="btn">Book Now</a>
+            <a href="{{ url_for('booking') }}" class="btn">Book Now</a>
         </div>
         <div class="provider-item">
             <img src="{{ url_for('static', filename='pictures/guiders/guider2.jpg')}}" alt="Assistant 2">
             <h3>Anna Johnson</h3>
             <p>Specializes in elderly care, providing professional assistance during hospital visits and checkups.</p>
             <p class="price">Price: 0.12 ETH/hour</p>
-            <a href="booking.html" class="btn">Book Now</a>
+            <a href="{{ url_for('booking') }}" class="btn">Book Now</a>
         </div>
         <div class="provider-item">
             <img src="{{ url_for('static', filename='pictures/guiders/guider3.jpg')}}" alt="Assistant 3">
             <h3>Emily White</h3>
             <p>Offers health and wellness support, assisting with scheduling appointments and medical guidance.</p>
             <p class="price">Price: 0.10 ETH/hour</p>
-            <a href="booking.html" class="btn">Book Now</a>
+            <a href="{{ url_for('booking') }}" class="btn">Book Now</a>
         </div>
         <div class="provider-item">
             <img src="{{ url_for('static', filename='pictures/guiders/guider4.jpg')}}" alt="Assistant 4">
             <h3>Michael Lee</h3>
             <p>Provides patient transport and accompaniment, ensuring smooth medical visits for individuals in need.</p>
             <p class="price">Price: 0.09 ETH/hour</p>
-            <a href="booking.html" class="btn">Book Now</a>
+            <a href="{{ url_for('booking') }}" class="btn">Book Now</a>
         </div>
     </div>
 </section>

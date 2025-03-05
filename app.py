@@ -34,7 +34,9 @@ def publish_service():
     print(t)
     return render_template('publish-service.html', t=t)
 
-
+@app.route('/order',methods=["get","post"])
+def order():
+    return render_template('order.html')
 
 
 if __name__=='__main__':

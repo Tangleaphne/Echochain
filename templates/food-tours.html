@@ -298,7 +298,7 @@
     <nav>
         <ul>
             <li><a href="{{ url_for('index') }}">Home</a></li>
-            <li><a href="publish-service.html" class="btn">Publish Service</a></li>
+            <li><a href="{{ url_for('publish_service') }}" class="btn">Publish Service</a></li>
         </ul>
     </nav>
 </header>
@@ -323,28 +323,28 @@
             <h3>Alex Lee</h3>
             <p>Expert in finding the best hidden food gems and local favorites.</p>
             <p class="price">Price: 0.05 ETH/hour</p>
-            <a href="booking.html" class="btn">Book Now</a>
+            <a href="{{ url_for('booking') }}" class="btn">Book Now</a>
         </div>
         <div class="provider-item">
             <img src="{{ url_for('static', filename='pictures/guiders/guider2.jpg')}}" alt="Guide 2">
             <h3>Sophia Chen</h3>
             <p>Discover iconic dishes with a focus on street food and markets.</p>
             <p class="price">Price: 0.07 ETH/hour</p>
-            <a href="booking.html" class="btn">Book Now</a>
+            <a href="{{ url_for('booking') }}" class="btn">Book Now</a>
         </div>
         <div class="provider-item">
             <img src="{{ url_for('static', filename='pictures/guiders/guider3.jpg')}}" alt="Guide 3">
             <h3>Michael Wang</h3>
             <p>Experienced in local cuisine, with a passion for teaching cooking techniques.</p>
             <p class="price">Price: 0.09 ETH/hour</p>
-            <a href="booking.html" class="btn">Book Now</a>
+            <a href="{{ url_for('booking') }}" class="btn">Book Now</a>
         </div>
         <div class="provider-item">
             <img src="{{ url_for('static', filename='pictures/guiders/guider4.jpg')}}" alt="Guide 4">
             <h3>Olivia Zhang</h3>
             <p>A food lover who specializes in pairing local cuisine with wine tastings.</p>
             <p class="price">Price: 0.08 ETH/hour</p>
-            <a href="booking.html" class="btn">Book Now</a>
+            <a href="{{ url_for('booking') }}" class="btn">Book Now</a>
         </div>
     </div>
 </section>
