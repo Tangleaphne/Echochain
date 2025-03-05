@@ -297,7 +297,7 @@
     </div>
     <nav>
         <ul>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
             <li><a href="publish-service.html" class="btn">Publish Service</a></li>
         </ul>
     </nav>
@@ -308,10 +308,10 @@
         <h2>Explore Local Cuisine with Expert Guides</h2>
     </div>
     <div class="hero-images">
-        <img src="food1.jpg" alt="Travel Image 1">
-        <img src="food2.jpg" alt="Travel Image 2">
-        <img src="food3.jpg" alt="Travel Image 3">
-        <img src="food4.jpg" alt="Travel Image 4">
+        <img src="{{ url_for('static', filename='pictures/foods/food1.jpg')}}" alt="Travel Image 1">
+        <img src="{{ url_for('static', filename='pictures/foods/food2.jpg')}}" alt="Travel Image 2">
+        <img src="{{ url_for('static', filename='pictures/foods/food3.jpg')}}" alt="Travel Image 3">
+        <img src="{{ url_for('static', filename='pictures/foods/food4.jpg')}}" alt="Travel Image 4">
     </div>
 </section>
 
@@ -319,28 +319,28 @@
     <h2>Food Tour Guides</h2>
     <div class="provider-list">
         <div class="provider-item">
-            <img src="1.jpg" alt="Guide 1">
+            <img src="{{ url_for('static', filename='pictures/guiders/guider1.jpg')}}" alt="Guide 1">
             <h3>Alex Lee</h3>
             <p>Expert in finding the best hidden food gems and local favorites.</p>
             <p class="price">Price: 0.05 ETH/hour</p>
             <a href="booking.html" class="btn">Book Now</a>
         </div>
         <div class="provider-item">
-            <img src="2.jpg" alt="Guide 2">
+            <img src="{{ url_for('static', filename='pictures/guiders/guider2.jpg')}}" alt="Guide 2">
             <h3>Sophia Chen</h3>
             <p>Discover iconic dishes with a focus on street food and markets.</p>
             <p class="price">Price: 0.07 ETH/hour</p>
             <a href="booking.html" class="btn">Book Now</a>
         </div>
         <div class="provider-item">
-            <img src="3.jpg" alt="Guide 3">
+            <img src="{{ url_for('static', filename='pictures/guiders/guider3.jpg')}}" alt="Guide 3">
             <h3>Michael Wang</h3>
             <p>Experienced in local cuisine, with a passion for teaching cooking techniques.</p>
             <p class="price">Price: 0.09 ETH/hour</p>
             <a href="booking.html" class="btn">Book Now</a>
         </div>
         <div class="provider-item">
-            <img src="4.jpeg" alt="Guide 4">
+            <img src="{{ url_for('static', filename='pictures/guiders/guider4.jpg')}}" alt="Guide 4">
             <h3>Olivia Zhang</h3>
             <p>A food lover who specializes in pairing local cuisine with wine tastings.</p>
             <p class="price">Price: 0.08 ETH/hour</p>
