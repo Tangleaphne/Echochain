@@ -38,6 +38,28 @@ def publish_service():
 def order():
     return render_template('order.html')
 
+@app.route('/chat/<int:guider_id>')
+def chat_with_guider(guider_id):
+    # 假设你有一个导游数据字典
+    guiders = {
+        1: {"name": "David Wang", "image": "pictures/guiders/guider1.jpg"},
+        2: {"name": "Nina Lee", "image": "pictures/guiders/guider2.jpg"},
+        3: {"name": "yt", "image": "pictures/guiders/guider3.jpg"},
+        4: {"name": "Emily Chen", "image": "pictures/guiders/guider4.jpg"},
+        5: {"name": "Dr. John Smith", "image": "pictures/guiders/guider1.jpg"},
+        6: {"name": "Anna Johnson", "image": "pictures/guiders/guider2.jpg"},
+        7: {"name": "Emily White", "image": "pictures/guiders/guider3.jpg"},  
+        8: {"name": "Michael Lee", "image": "pictures/guiders/guider4.jpg"},
+        9: {"name": "Alex Lee", "image": "pictures/guiders/guider1.jpg"},
+        10: {"name": "Sophia Chen", "image": "pictures/guiders/guider2.jpg"},
+        11: {"name": "Michael Wang", "image": "pictures/guiders/guider3.jpg"},
+        12: {"name": "Olivia Zhang", "image": "pictures/guiders/guider4.jpg"},
+    }
+    
+    guider = guiders.get(guider_id, {"name": "Unknown", "image": "pictures/guiders/guider1.jpg"})
+    
+    return render_template("chat_with_guider.html", guider=guider)
+
 
 if __name__=='__main__':
     app.run()
