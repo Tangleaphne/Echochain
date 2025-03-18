@@ -171,10 +171,10 @@
         <form action="submit-booking.php" method="POST">
 
 			<label for="guider_id">Guider ID</label>
-    		<input type="number" id="guider_id" name="guider_id" required>
+    		<input type="text" id="guider_id" name="guider_id" readonly>
 
-            <label for="tour">Tour Type</label>
-            <input type="text" id="tour" name="tour" value="Travel Companion" readonly>
+            <label for="tour_type">Tour Type</label>
+            <input type="text" id="tour_type" name="tour_type" readonly>
 
             <label for="start-date">Start Date & Time:</label>
             <input type="datetime-local" id="start-date" name="start_date" required>
@@ -707,6 +707,28 @@
     const web3 = new Web3(Web3.givenProvider);
 	const contract = new web3.eth.Contract(contractABI, contractAddress);
 
+	// 解析 URL 参数的函数
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // 获取 URL 参数
+        const tourType = getQueryParam("tour_type");
+        const guiderId = getQueryParam("guider_id");
+
+        // 设置 Tour Type
+        if (tourType) {
+            document.getElementById("tour_type").value = decodeURIComponent(tourType);
+        }
+
+        // 设置 Guider ID
+        if (guiderId) {
+            document.getElementById("guider_id").value = guiderId;
+        }
+    });
+
     async function createOrder() {
         const accounts = await web3.eth.requestAccounts(); 
 		const userWallet = accounts[0];
@@ -720,10 +742,11 @@
         // const imgLink = "static/1.jpg";
 		
 		const guiderId = document.getElementById("guider_id").value;
+		const tourType = document.getElementById("tour_type").value;
         const startDate = document.getElementById("start-date").value;
         const endDate = document.getElementById("end-date").value;
 		
-		if (!guiderId || !startDate || !endDate) {
+		if (!startDate || !endDate) {
             alert("Please fill all required fields.");
             return;
         }
@@ -784,7 +807,7 @@
 				console.log("Transaction successful:", receipt);
 
 				// 交易成功后，把数据存入数据库
-				saveOrder(userWallet, guiderId, startDate, endDate);
+				saveOrder(userWallet, guiderId, tourType, startDate, endDate);
 				alert("Transaction Successful! Your booking has been created.");
 
 			} catch (error) {
@@ -793,13 +816,14 @@
 			}
      }
 
-	 function saveOrder(wallet, guiderId, start, end) {
+	 function saveOrder(wallet, guiderId, tourType, start, end) {
         fetch("/save_order", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 wallet: wallet,
                 guider_id: guiderId,
+				tour_type: tourType,
                 start_date: start,
                 end_date: end
             })

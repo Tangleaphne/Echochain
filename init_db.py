@@ -9,9 +9,9 @@ def create_database():
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         wallet_address TEXT NOT NULL,
                         guider_id INTEGER NOT NULL,
+                        tour_type TEXT NOT NULL,
                         start_time TEXT NOT NULL,
-                        end_time TEXT NOT NULL,
-                        status TEXT DEFAULT "Pending"
+                        end_time TEXT NOT NULL
                     )''')
 
     conn.commit()

@@ -53,17 +53,18 @@ def save_order():
     data = request.json
     wallet = data.get("wallet")
     guider_id = data.get("guider_id")
+    tour_type = data.get("tour_type")
     start_date = data.get("start_date")
     end_date = data.get("end_date")
 
-    if not wallet or not guider_id or not start_date or not end_date:
+    if not wallet or not guider_id or not tour_type or not start_date or not end_date:
         return jsonify({"error": "Missing required fields"}), 400
 
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO orders (wallet_address, guider_id, start_time, end_time) VALUES (?, ?, ?, ?)",
-                       (wallet, guider_id, start_date, end_date))
+        cursor.execute("INSERT INTO orders (wallet_address, guider_id, tour_type, start_time, end_time) VALUES (?, ?, ?, ?, ?)",
+                       (wallet, guider_id, tour_type, start_date, end_date))
         conn.commit()
         conn.close()
         print("Order saved successfully")
@@ -87,14 +88,15 @@ def booking():
     if request.method == "POST":
         wallet_address = request.form["wallet"]
         guider_id = request.form["guider_id"]
+        tour_type = request.form["tour_type"]
         start_time = request.form["start_date"]
         end_time = request.form["end_date"]
 
         # 存入数据库
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO orders (wallet_address, guider_id, start_time, end_time) VALUES (?, ?, ?, ?)",
-                       (wallet_address, guider_id, start_time, end_time))
+        cursor.execute("INSERT INTO orders (wallet_address, guider_id, tour_type, start_time, end_time) VALUES (?, ?, ?, ?, ?)",
+                       (wallet_address, guider_id, tour_type, start_time, end_time))
         conn.commit()
         conn.close()
 

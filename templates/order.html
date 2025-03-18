@@ -185,18 +185,20 @@
                 <th>Order ID</th>
                 <th>Wallet Address</th>
                 <th>Guider ID</th>
+                <th>Tour Type</th>
                 <th>Start Date & Time</th>
                 <th>End Date & Time</th>
-                <th>Status</th>
+                <!-- <th>Status</th> -->
             </tr>
             {% for order in orders %}
             <tr>
                 <td>{{ order["id"] }}</td>
                 <td>{{ order["wallet_address"] }}</td>
                 <td>{{ order["guider_id"] }}</td>
+                <td>{{ order["tour_type"] }}</td>
                 <td>{{ order["start_time"] }}</td>
                 <td>{{ order["end_time"] }}</td>
-                <td>{{ order["status"] }}</td>
+                <!-- <td>{{ order["status"] }}</td> -->
             </tr>
             {% endfor %}
         </table>
