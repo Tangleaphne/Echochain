@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoChain Whitepaper</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Reset */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #121212;
+            color: #fff;
+            overflow-x: hidden;
+            height: 100%;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 1));
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: width 0.3s ease;
+        }
+
+        .sidebar h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #4caf50;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .sidebar nav a {
+            display: block;
+            color: #fff;
+            padding: 12px;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, padding-left 0.3s ease;
+        }
+
+        .sidebar nav a:hover {
+            background-color: #4caf50;
+            padding-left: 20px;
+        }
+
+        /* Main content */
+        .container {
+            margin-left: 260px;
+            padding-top: 100px;
+            padding: 0 40px;
+        }
+
+        /* Section */
+        section {
+            padding: 60px 0;
+            margin-bottom: 60px;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            color: #fff;
+            text-align: center;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        section h3 {
+            font-size: 1.8rem;
+            color: #4caf50;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        section p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #aaa;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        section ul {
+            list-style-type: none;
+            padding-left: 20px;
+            margin-top: 15px;
+        }
+
+        section ul li {
+            padding-left: 20px;
+            position: relative;
+            font-size: 1.1rem;
+        }
+
+        section ul li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+            font-size: 1.8rem;
+            top: 0;
+        }
+
+        .cta {
+            background: #4caf50;
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+            max-width: 300px;
+            margin: 30px auto;
+        }
+
+        .cta:hover {
+            background-color: #45a049;
+        }
+
+        .section-divider {
+            height: 2px;
+            width: 100%;
+            background: #4caf50;
+            margin: 40px auto;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #aaa;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer p {
+            font-size: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .container {
+                margin-left: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 0;
+                opacity: 0;
+            }
+
+            .container {
+                margin-left: 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Left Sidebar -->
+    <div class="sidebar">
+        <h1>EchoChain</h1>
+        <nav>
+            <a href="#whitepaper">Whitepaper</a>
+            <a href="#overview">Overview</a>
+            <a href="#services">Services</a>
+            <a href="#faq">FAQ</a>
+            <a href="#tokenomics">Tokenomics</a>
+            <a href="#community">Community & KOLs</a>
+            <a href="#roadmap">Roadmap</a>
+        </nav>
+        <footer>
+            <p>&copy; 2025 EchoChain. All rights reserved.</p>
+            <p>Platform's Profit: 10% Commission</p>
+        </footer>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Whitepaper Section -->
+        <section id="whitepaper">
+            <h2>EchoChain Whitepaper</h2>
+            <div class="section-divider"></div>
+            <h3>EchoChain Logo</h3>
+            <p>Discover everything you need to know about EchoChain, your one-stop decentralized local guide service on the blockchain. Our mission is to provide seamless travel experiences by connecting travelers with trusted local guides, offering food tours, and providing medical assistance wherever you are in the world.</p>
+
+            <div class="section-divider"></div>
+
+            <h3>Let's Start</h3>
+            <p>Get started with EchoChain and explore the amazing world of personalized local companionship services powered by Web3 and blockchain technology. Embark on unique travel adventures with complete peace of mind.</p>
+
+            <div class="section-divider"></div>
+
+            <h3>Terminologies of EchoChain</h3>
+            <p>Learn the key terms that define how EchoChain works. Understanding these terms will help you navigate our platform and fully engage in the local guide services it provides.</p>
+
+            <div class="section-divider"></div>
+
+            <h3>EchoChain Services</h3>
+            <ul>
+                <li><strong>Travel Companion:</strong> Personalized travel experiences with local guides to explore new places comfortably.</li>
+                <li><strong>Food Tours:</strong> Curated culinary experiences, guiding you to hidden food spots that only locals know about.</li>
+                <li><strong>Medical Assistance:</strong> Professional medical support abroad, ensuring safe and seamless healthcare experiences.</li>
+            </ul>
+
+            <div class="section-divider"></div>
+
+            <h3>EchoChain Reporting</h3>
+            <p>Reporting is vital to maintain trust within the EchoChain ecosystem. Users can report inappropriate content, suspicious behavior, or any issues encountered during their interactions with local guides. Our decentralized platform ensures a safe, reliable, and secure environment for all users.</p>
+
+            <div class="section-divider"></div>
+
+            <h3>Congratulations!</h3>
+            <p>You’ve completed the EchoChain onboarding tutorial. You’re now ready to start exploring with local guides and enjoying unique travel experiences with peace of mind and privacy!</p>
+
+            <div class="cta">
+                Start Your Journey Now
+            </div>
+        </section>
+
+        <!-- Overview Section -->
+        <section id="overview">
+            <h2>Overview</h2>
+            <p>EchoChain is a Web3-based local guide service platform, offering personalized experiences such as travel companions, food tours, and medical assistance, all powered by blockchain technology. EchoChain’s decentralized approach ensures user privacy, data security, and transparency while creating a peer-to-peer ecosystem for local guides and travelers to connect directly.</p>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services">
+            <h2>EchoChain Services</h2>
+            <div class="section-divider"></div>
+            <h3>How EchoChain Works</h3>
+            <p>Through our unique services, we empower both travelers and local guides to build real-time experiences that benefit both parties. Whether it's discovering the city's best spots, tasting exclusive food, or receiving medical aid, EchoChain ensures privacy, security, and seamless transactions.</p>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq">
+            <h2>FAQ</h2>
+            <ul>
+                <li><strong>What is EchoChain?</strong> A decentralized platform that connects users with local guides for travel, food tours, and medical assistance, powered by blockchain.</li>
+                <li><strong>How do I earn $ECH tokens?</strong> Participate in platform activities, complete tasks, and verify profiles to earn $ECH tokens.</li>
+                <li><strong>Is EchoChain available globally?</strong> Yes, EchoChain connects users with guides worldwide.</li>
+                <li><strong>How does blockchain ensure my privacy?</strong> Blockchain secures data integrity and ensures that no one can tamper with personal information.</li>
+            </ul>
+        </section>
+
+        <!-- Tokenomics Section -->
+        <section id="tokenomics">
+            <h2>Tokenomics of $ECH</h2>
+            <div class="section-divider"></div>
+            <h3>Overview</h3>
+            <p>$ECH is the native utility token of the EchoChain platform. It facilitates all transactions, rewards users for their participation, and acts as the backbone of our decentralized economy. It empowers users to interact with the platform's services, earn rewards, and participate in governance decisions.</p>
+
+            <div class="section-divider"></div>
+
+            <h3>Token Distribution</h3>
+            <ul>
+                <li><strong>40%:</strong> Community Rewards (Staking, Liquidity Mining, and Incentives)</li>
+                <li><strong>30%:</strong> Ecosystem Fund (Partnerships, Development, and Strategic Initiatives)</li>
+                <li><strong>15%:</strong> Team and Advisors (Vested over 4 years)</li>
+                <li><strong>10%:</strong> Reserve Fund (For future growth and unforeseen needs)</li>
+                <li><strong>5%:</strong> Initial Token Sale (For initial ecosystem growth)</li>
+            </ul>
+        </section>
+
+        <!-- Community & KOLs Section -->
+        <section id="community">
+            <h2>Community & KOLs</h2>
+            <div class="section-divider"></div>
+            <h3>Building a Thriving Community</h3>
+            <p>At EchoChain, we understand the importance of community in the success of decentralized platforms. Our community-driven model allows users, local guides, and key opinion leaders (KOLs) to interact, collaborate, and grow the ecosystem together. We empower our community by allowing them to participate in governance decisions, promote platform growth, and earn $ECH tokens for their contributions.</p>
+
+            <div class="section-divider"></div>
+
+            <h3>Partnering with KOLs</h3>
+            <p>We work with influential KOLs (Key Opinion Leaders) to expand our reach, raise awareness, and ensure that EchoChain remains at the forefront of the decentralized tourism and travel industry. Through collaborations, KOLs can help educate, onboard, and incentivize new users to the platform.</p>
+        </section>
+
+        <!-- Roadmap Section -->
+        <section id="roadmap">
+            <h2>Roadmap</h2>
+            <div class="section-divider"></div>
+            <h3>Phase 1: Platform Launch</h3>
+            <ul>
+                <li>Launch of the EchoChain platform with basic services like travel companions and food tours.</li>
+                <li>Initial $ECH token distribution to community members.</li>
+                <li>Integration with decentralized governance tools.</li>
+            </ul>
+
+            <div class="section-divider"></div>
+
+            <h3>Phase 2: Ecosystem Expansion</h3>
+            <ul>
+                <li>Expansion of EchoChain’s services to new regions and more local guides.</li>
+                <li>Collaboration with global tourism and travel organizations.</li>
+                <li>Launch of mobile app for easier access to EchoChain services.</li>
+            </ul>
+
+            <div class="section-divider"></div>
+
+            <h3>Phase 3: Full Decentralization</h3>
+            <ul>
+                <li>Full decentralization of platform management through community governance.</li>
+                <li>Increased rewards and incentives for platform participants.</li>
+                <li>Establishment of the EchoChain DAO (Decentralized Autonomous Organization).</li>
+            </ul>
+        </section>
+
+        <div class="cta">
+            Join the EchoChain Revolution
+        </div>
+    </div>
+</body>
+</html>
