@@ -4,6 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cultural Tours - Service Providers</title>
+    <!-- Ethers.js & WalletConnect Provider & Web3Modal (UMD builds) -->
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <script src="https://unpkg.com/@walletconnect/web3-provider@1.6.6/dist/umd/index.min.js"></script>
+
+    <!-- Fortmatic -->
+    <script src="https://cdn.jsdelivr.net/npm/fortmatic/dist/fortmatic.js"></script>
+    <!-- Torus -->
+    <script src="https://cdn.jsdelivr.net/npm/@toruslabs/torus-embed@1.16.3/dist/torus.umd.min.js"></script>
+
+    <!-- Web3Modal -->
+    <script src="https://unpkg.com/web3modal@1.9.5/dist/index.js"></script>
+    <!-- 引入外部CSS -->
+    <link rel="stylesheet" href="static/wallet-connect-button.css">
     <style>
         * {
             margin: 0;
@@ -18,18 +31,26 @@
             line-height: 1.6;
         }
 
-        header {
+        /* header {
             background-color: #1E1E1E;
             padding: 20px 0;
             text-align: center;
             border-bottom: 2px solid #00FFEA;
-        }
+        } */
 
         header .logo h1 {
             font-size: 42px;
             font-weight: bold;
             color: #00FFEA;
             letter-spacing: 2px;
+        }
+
+        /* 让导航栏仍然在 header 内，并与蓝线保持间距 */
+        nav {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px; /* 让导航栏稍微下移，避免紧贴标题 */
         }
 
         nav ul {
@@ -66,6 +87,7 @@
             text-align: center;
             overflow: hidden;
             background-color: #121212;
+            margin-top: 220px; /* 调整这个数值，让内容向下移动 */
         }
 
         .hero-content h2 {
@@ -391,8 +413,19 @@
 <body>
 
 <header>
-    <div class="logo">
-        <h1>Food Tours</h1>
+    <div class="header-container">
+        <div class="logo-container">
+            <h1 class="logo">Food Tours</h1>
+        </div>
+
+        <!-- Wallet Connect 按钮 -->
+        <div class="wallet-section">
+            <!-- 主按钮：如果未连接 -> 显示Custom Connect；若已连接 -> 显示地址 -->
+            <button id="wallet-main-btn" class="wallet-btn">
+                <span>💳</span>
+                <span id="wallet-main-text">Wallet Connect</span>
+            </button>
+        </div>
     </div>
     <nav>
         <ul>
@@ -401,6 +434,103 @@
         </ul>
     </nav>
 </header>
+
+<!-- All other popups / modals -->
+    <!-- 1) 自定义弹窗, 未连接时显示“all wallets”、“get started”，左上角问号可以跳转到 #wallet-info -->
+    <div id="custom-popup" class="wallet-popup">
+        <button class="back" onclick="openPopup('wallet-info')">❓</button>
+        <button class="close" onclick="closePopup('custom-popup')">&times;</button>
+        <h3>Connect Wallet</h3>
+
+        <!-- \"All Wallets\" => open #wallet-list -->
+        <button class="wallet-btn" id="all-wallets-btn" style="margin-bottom: 12px;">
+        <span>📚</span>
+        <span>All Wallets</span>
+        </button>
+
+        <!-- \"Get Started\" => link to wc wallet guide -->
+        <button class="wallet-btn" id="get-started-btn">
+        <span>🚀</span>
+        <span>Get Started</span>
+        </button>
+    </div>
+
+    <!-- 2) All Wallets Popup => 6 wallets + search bar => connect via web3Modal -->
+    <div id="wallet-list" class="wallet-popup">
+        <div class="top-inner">
+            <button class="back" onclick="goBack('custom-popup')">&#8592;</button>
+            <button class="close" onclick="closePopup('wallet-list')">&times;</button>
+        </div>
+        <h3>All Wallets</h3>
+
+        <input
+        type="text"
+        id="wallet-search"
+        class="wallet-search"
+        placeholder="Search wallets..."
+        oninput="filterWallets()"
+        />
+        <div id="wallet-container"></div>
+    </div>
+
+    <!-- 3) What is a Wallet? -->
+    <div id="wallet-info" class="wallet-popup">
+        <div class="top-inner">
+            <button class="back" onclick="goBack('custom-popup')">&#8592;</button>
+            <button class="close" onclick="closePopup('wallet-info')">&times;</button>
+        </div>
+        <h3>What Is A Wallet?</h3>
+        <!-- The advanced info with \"One login for all of web3\" etc. -->
+        <div style="text-align: left; margin-top: 20px; color: #333;">
+        <h4 style="margin: 10px 0 5px; font-size: 16px; color: black;">One login for all of web3</h4>
+        <p style="margin-bottom: 20px; font-size: 14px; color: #555;">
+            Log in to any app by connecting your wallet. Say goodbye to countless passwords!
+        </p>
+
+        <h4 style="margin: 10px 0 5px; font-size: 16px; color: black;">A home for your digital assets</h4>
+        <p style="margin-bottom: 20px; font-size: 14px; color: #555;">
+            A wallet lets you store, send and receive digital assets like cryptocurrencies and NFTs.
+        </p>
+
+        <h4 style="margin: 10px 0 5px; font-size: 16px; color: black;">Your gateway to a new web</h4>
+        <p style="margin-bottom: 20px; font-size: 14px; color: #555;">
+            With your wallet, you can explore and interact with DeFi, NFTs, DAOs, and much more.
+        </p>
+        </div>
+
+        <!-- Get a wallet button at the bottom -->
+        <button class="wallet-btn" onclick="openPopup('get-wallet-popup')" style="margin-top: 20px;">
+        <span>Get a wallet</span>
+        </button>
+    </div>
+
+    <!-- get a wallet popup -->
+    <div id="get-wallet-popup" class="wallet-popup">
+        <div class="top-inner">
+            <button class="back" onclick="goBack('wallet-info')">&#8592;</button>
+            <button class="close" onclick="closePopup('get-wallet-popup')">&times;</button>
+        </div>
+        <h3>Get A Wallet</h3>
+        <p style="font-size: 14px; color: #555;">Choose a wallet below to visit the official website:</p>
+
+        <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+        <button class="wallet-btn" style="justify-content: center;" onclick="window.open('https://metamask.io/', '_blank')">MetaMask</button>
+        <button class="wallet-btn" style="justify-content: center;" onclick="window.open('https://trustwallet.com/', '_blank')">Trust Wallet</button>
+        <button class="wallet-btn" style="justify-content: center;" onclick="window.open('https://www.okx.com/web3', '_blank')">OKX Wallet</button>
+        <button class="wallet-btn" style="justify-content: center;" onclick="window.open('https://walletguide.walletconnect.network/?type=wallet', '_blank')">Explore All</button>
+        </div>
+    </div>
+
+    <!-- 4) 用户信息弹窗 => 当已经连接后，点击主按钮显示自己的地址+余额+退出 -->
+    <div id="user-info-popup" class="wallet-popup">
+        <div class="top-inner">
+            <button class="close" onclick="closePopup('user-info-popup')">&times;</button>
+        </div>
+        <h3>Your Wallet Info</h3>
+        <div id="user-address" class="info-line"></div>
+        <div id="user-balance" class="info-line"></div>
+        <button class="logout-btn" id="logout-btn">Disconnect</button>
+    </div>
 
 <section class="hero">
     <div class="hero-content">
@@ -483,6 +613,7 @@
     <button id="ai-chat-send" onclick="sendMessage()">发送</button>
 </div>
 
+<script src="static/wallet-connect.js"></script>
 <script>
     function navigateTo(url) {
         window.location.href = url;
