@@ -4,6 +4,8 @@ import datetime
 import os
 from init_db import create_database 
 
+
+
 app=Flask(__name__)
 
 if not os.path.exists("database.db"):
@@ -56,6 +58,8 @@ def save_order():
     tour_type = data.get("tour_type")
     start_date = data.get("start_date")
     end_date = data.get("end_date")
+    transaction_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    # transaction_time = (datetime.utcnow() + timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")
 
     if not wallet or not guider_id or not tour_type or not start_date or not end_date:
         return jsonify({"error": "Missing required fields"}), 400
@@ -63,8 +67,8 @@ def save_order():
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO orders (wallet_address, guider_id, tour_type, start_time, end_time) VALUES (?, ?, ?, ?, ?)",
-                       (wallet, guider_id, tour_type, start_date, end_date))
+        cursor.execute("INSERT INTO orders (transaction_time, wallet_address, guider_id, tour_type, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?)",
+                       (transaction_time, wallet, guider_id, tour_type, start_date, end_date))
         conn.commit()
         conn.close()
         print("Order saved successfully")
@@ -78,7 +82,7 @@ def save_order():
 def order():
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM orders")
+    cursor.execute("SELECT id, transaction_time, wallet_address, guider_id, tour_type, start_time, end_time FROM orders")
     orders = cursor.fetchall()
     conn.close()
     return render_template("order.html", orders=orders)

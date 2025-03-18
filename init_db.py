@@ -7,6 +7,7 @@ def create_database():
     # 订单表
     cursor.execute('''CREATE TABLE IF NOT EXISTS orders (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        transaction_time TEXT DEFAULT CURRENT_TIMESTAMP,
                         wallet_address TEXT NOT NULL,
                         guider_id INTEGER NOT NULL,
                         tour_type TEXT NOT NULL,
