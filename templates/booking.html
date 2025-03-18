@@ -159,8 +159,8 @@
     </div>
     <nav>
         <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="publish-service.html">Publish Service</a></li>
+			<li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('publish_service') }}" class="btn">Publish Service</a></li>
         </ul>
     </nav>
 </header>
@@ -170,8 +170,8 @@
     <div class="form-container">
         <form action="submit-booking.php" method="POST">
 
-            <label for="wallet">Wallet Address</label>
-            <input type="text" id="walletAddress" name="wallet" required>
+			<label for="guider_id">Guider ID</label>
+    		<input type="number" id="guider_id" name="guider_id" required>
 
             <label for="tour">Tour Type</label>
             <input type="text" id="tour" name="tour" value="Travel Companion" readonly>
@@ -709,39 +709,112 @@
 
     async function createOrder() {
         const accounts = await web3.eth.requestAccounts(); 
+		const userWallet = accounts[0];
         console.log(accounts);
+		
+        // const guideType = "travel";
+        // const guideAddress = "1";
+        // const guiderName = "1";
+        // const description = "1";
+        // const price = "1";
+        // const imgLink = "static/1.jpg";
+		
+		const guiderId = document.getElementById("guider_id").value;
+        const startDate = document.getElementById("start-date").value;
+        const endDate = document.getElementById("end-date").value;
+		
+		if (!guiderId || !startDate || !endDate) {
+            alert("Please fill all required fields.");
+            return;
+        }
 
-        const guideType = "travel";
-        const guideAddress = "1";
-        const guiderName = "1";
-        const description = "1";
-        const price = "1";
-        const imgLink = "static/1.jpg";
+		const startTimestamp = new Date(startDate).getTime() / 1000;
+        const endTimestamp = new Date(endDate).getTime() / 1000;
 
-        contract.methods.publishGuider(
-            guideType,
-            guiderName,
-            description,
-            price,
-            imgLink
-        )
-        .send({ from: accounts[0] })
-        .on('receipt', function(receipt) {
-            console.log('Issue receipt:', receipt);
-            const guiderAddress = receipt.events.GuiderPublish.returnValues.guider;
-            const guiderName = receipt.events.GuiderPublish.returnValues.name;
-            console.log("guider address:", guiderAddress);
-            console.log("guider name", guiderName);
+    //     contract.methods.publishGuider(
+    //         guideType,
+    //         guiderName,
+    //         description,
+    //         price,
+    //         imgLink
+    //     )
+    //     .send({ from: accounts[0] })
+    //     .on('receipt', function(receipt) {
+    //         console.log('Issue receipt:', receipt);
+    //         const guiderAddress = receipt.events.GuiderPublish.returnValues.guider;
+    //         const guiderName = receipt.events.GuiderPublish.returnValues.name;
+    //         console.log("guider address:", guiderAddress);
+    //         console.log("guider name", guiderName);
 
-            // Show success message
-            const successMessage = document.getElementById('successMessage');
-            successMessage.style.display = 'block'; // Show the success message
+    //         // Show success message
+    //         const successMessage = document.getElementById('successMessage');
+    //         successMessage.style.display = 'block'; // Show the success message
         
-       })
-        .on('error', function(error, receipt) {
-            console.error('An error occurred:', error);
+    //    })
+    //     .on('error', function(error, receipt) {
+    //         console.error('An error occurred:', error);
+    //     });
+
+		// **新增校验逻辑**
+		if (isNaN(startTimestamp) || isNaN(endTimestamp)) {
+        alert("Invalid date format. Please enter a valid date and time.");
+        return;
+    }
+		// **检查开始时间是否早于结束时间**
+		if (startTimestamp >= endTimestamp) {
+			alert("Start time must be earlier than end time.");
+			return;
+		}
+		// **检查开始时间不能是过去的时间**
+		const currentTimestamp = Math.floor(Date.now() / 1000);
+		if (startTimestamp < currentTimestamp) {
+			alert("Start time must be in the future.");
+			return;
+		}
+
+		try {
+				// 调用智能合约创建订单
+				const receipt = await contract.methods.createOrder(
+					userWallet,
+					guiderId,
+					startTimestamp,
+					endTimestamp
+				).send({ from: userWallet});
+
+				console.log("Transaction successful:", receipt);
+
+				// 交易成功后，把数据存入数据库
+				saveOrder(userWallet, guiderId, startDate, endDate);
+				alert("Transaction Successful! Your booking has been created.");
+
+			} catch (error) {
+				console.error("Error in transaction:", error);
+				alert("Transaction failed!");
+			}
+     }
+
+	 function saveOrder(wallet, guiderId, start, end) {
+        fetch("/save_order", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                wallet: wallet,
+                guider_id: guiderId,
+                start_date: start,
+                end_date: end
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Order saved to database:", data);
+            // alert("Booking successful!");
+        })
+        .catch(error => {
+            console.error("Error saving order:", error);
         });
     }
+
+		
 </script>
 
 </body>
