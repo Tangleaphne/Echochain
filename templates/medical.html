@@ -605,10 +605,10 @@
         <button onclick="closeChat()">✖</button>
     </div>
     <div id="ai-chat-messages">
-        <div class="message bot">欢迎！告诉我你的需求和喜好，我为你推荐合适的服务。</div>
+        <div class="message bot">Welcome! Tell me your needs and preferences, and I'll recommend the right services for you.</div>
     </div>
-    <input type="text" id="ai-chat-input" placeholder="请输入...">
-    <button id="ai-chat-send" onclick="sendMessage()">发送</button>
+    <input type="text" id="ai-chat-input" placeholder="Please enter...">
+    <button id="ai-chat-send" onclick="sendMessage()">Send</button>
 </div>
 
 <script src="static/wallet-connect.js"></script>
@@ -641,7 +641,7 @@
         setTimeout(() => {
             let botMessage = document.createElement("div");
             botMessage.classList.add("message", "bot");
-            botMessage.innerText = "我正在为你推荐最佳服务...";
+            botMessage.innerText = "I'm recommending the best service for you...";
             chatMessages.appendChild(botMessage);
         }, 1000);
     }
