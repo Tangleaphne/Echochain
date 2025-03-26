@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Guide Service</title>
+    <!-- Ethers.js & WalletConnect Provider & Web3Modal (UMD builds) -->
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <script src="https://unpkg.com/@walletconnect/web3-provider@1.6.6/dist/umd/index.min.js"></script>
+
+    <!-- Fortmatic -->
+    <script src="https://cdn.jsdelivr.net/npm/fortmatic/dist/fortmatic.js"></script>
+    <!-- Torus -->
+    <script src="https://cdn.jsdelivr.net/npm/@toruslabs/torus-embed@1.16.3/dist/torus.umd.min.js"></script>
+
+    <!-- Web3Modal -->
+    <script src="https://unpkg.com/web3modal@1.9.5/dist/index.js"></script>
+    <!-- 引入外部CSS -->
+    <link rel="stylesheet" href="static/wallet-connect-button.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        /* header {
+            background-color: #1E1E1E;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 2px solid #00FFEA;
+        } */
+
+        header .logo h1 {
+            font-size: 42px;
+            font-weight: bold;
+            color: #00FFEA;
+            letter-spacing: 2px;
+        }
+
+        /* 让导航栏仍然在 header 内，并与蓝线保持间距 */
+        nav {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px; /* 让导航栏稍微下移，避免紧贴标题 */
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: #00FFEA;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #FFD700;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://source.unsplash.com/1600x900/?blockchain,technology') no-repeat center center/cover;
+            height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            margin-top: 50px; /* 调整这个数值，让内容向下移动 */
+        }
+
+        .hero-content h2 {
+            font-size: 52px;
+            margin-bottom: 20px;
+            color: #00FFEA;
+            text-shadow: 2px 2px 8px rgba(0, 255, 234, 0.8);
+        }
+
+        .hero-content p {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #FFD700;
+            text-shadow: 1px 1px 3px rgba(255, 215, 0, 0.6);
+        }
+
+        .btn {
+            padding: 14px 36px;
+            background-color: #00FFEA;
+            color: #121212;
+            border: none;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 255, 234, 0.5);
+        }
+
+        .btn:hover {
+            background-color: #FFD700;
+            color: #121212;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+        }
+
+        section {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 38px;
+            margin-bottom: 40px;
+            color: #00FFEA;
+        }
+
+        .services, .guides {
+            background-color: #1E1E1E;
+        }
+
+        .service-list, .guide-list {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .service-item, .guide-item {
+            background-color: #2D2D2D;
+            padding: 30px;
+            margin: 15px;
+            width: 30%;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .service-item:hover, .guide-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 30px rgba(0, 255, 234, 0.5);
+        }
+
+        .service-item h3, .guide-item h3 {
+            font-size: 26px;
+            margin-bottom: 15px;
+            color: #FFD700;
+        }
+
+        .service-item p, .guide-item p {
+            font-size: 16px;
+            color: #ccc;
+        }
+
+        .guide-item img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .contact {
+            background-color: #1E1E1E;
+            color: white;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #2D2D2D;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 255, 234, 0.2);
+        }
+
+        form label {
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: block;
+            color: #FFD700;
+        }
+
+        form input, form textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        button {
+            padding: 12px 30px;
+            background-color: #00FFEA;
+            color: #121212;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 255, 234, 0.5);
+        }
+
+        button:hover {
+            background-color: #FFD700;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+        }
+
+        footer {
+            background-color: #1E1E1E;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-top: 2px solid #00FFEA;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* AI Chat Button */
+        #ai-chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #00FFEA;
+            color: #121212;
+            padding: 12px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 255, 234, 0.5);
+            transition: transform 0.2s ease;
+        }
+
+        #ai-chat-button:hover {
+            transform: scale(1.1);
+        }
+
+        /* AI Chat Box */
+        #ai-chat-box {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 320px;
+            background: #1E1E1E;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 255, 234, 0.3);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #ai-chat-header {
+            background: #00FFEA;
+            color: #121212;
+            padding: 10px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #ai-chat-header button {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        #ai-chat-messages {
+            padding: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .bot {
+            background: #FFD700;
+            color: #121212;
+            align-self: flex-start;
+        }
+
+        .user {
+            background: #00FFEA;
+            color: #121212;
+            align-self: flex-end;
+        }
+
+        #ai-chat-input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: #333;
+            color: white;
+        }
+
+        #ai-chat-send {
+            background: #00FFEA;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <h1 class="logo">EchoChain-Local Guide Service Platform</h1>
+            </div>
+    
+            <!-- Wallet Connect 按钮 -->
+            <div class="wallet-section">
+                <!-- 主按钮：如果未连接 -> 显示Custom Connect；若已连接 -> 显示地址 -->
+                <button id="wallet-main-btn" class="wallet-btn">
+                    <span>💳</span>
+                    <span id="wallet-main-text">Wallet Connect</span>
+                </button>
+            </div>
+        </div>
+    
+        <!-- 直接放入 header 内部，让导航栏在蓝线上方 -->
+        <nav>
+            <ul>
+                <li><a href="#services">Our Services</a></li>
+                <li><a href="#guides">Top Guides</a></li>
+                <li><a href="{{ url_for('order') }}">My Orders</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- All other popups / modals -->
+    <!-- 1) 自定义弹窗, 未连接时显示“all wallets”、“get started”，左上角问号可以跳转到 #wallet-info -->
+    <div id="custom-popup" class="wallet-popup">
+        <button class="back" onclick="openPopup('wallet-info')">❓</button>
+        <button class="close" onclick="closePopup('custom-popup')">&times;</button>
+        <h3>Connect Wallet</h3>
+
+        <!-- \"All Wallets\" => open #wallet-list -->
+        <button class="wallet-btn" id="all-wallets-btn" style="margin-bottom: 12px;">
+        <span>📚</span>
+        <span>All Wallets</span>
+        </button>
+
+        <!-- \"Get Started\" => link to wc wallet guide -->
+        <button class="wallet-btn" id="get-started-btn">
+        <span>🚀</span>
+        <span>Get Started</span>
+        </button>
+    </div>
+
+    <!-- 2) All Wallets Popup => 6 wallets + search bar => connect via web3Modal -->
+    <div id="wallet-list" class="wallet-popup">
+        <div class="top-inner">
+            <button class="back" onclick="goBack('custom-popup')">&#8592;</button>
+            <button class="close" onclick="closePopup('wallet-list')">&times;</button>
+        </div>
+        <h3>All Wallets</h3>
+
+        <input
+        type="text"
+        id="wallet-search"
+        class="wallet-search"
+        placeholder="Search wallets..."
+        oninput="filterWallets()"
+        />
+        <div id="wallet-container"></div>
+    </div>
+
+    <!-- 3) What is a Wallet? -->
+    <div id="wallet-info" class="wallet-popup">
+        <div class="top-inner">
+            <button class="back" onclick="goBack('custom-popup')">&#8592;</button>
+            <button class="close" onclick="closePopup('wallet-info')">&times;</button>
+        </div>
+        <h3>What Is A Wallet?</h3>
+        <!-- The advanced info with \"One login for all of web3\" etc. -->
+        <div style="text-align: left; margin-top: 20px; color: #333;">
+        <h4 style="margin: 10px 0 5px; font-size: 16px; color: black;">One login for all of web3</h4>
+        <p style="margin-bottom: 20px; font-size: 14px; color: #555;">
+            Log in to any app by connecting your wallet. Say goodbye to countless passwords!
+        </p>
+
+        <h4 style="margin: 10px 0 5px; font-size: 16px; color: black;">A home for your digital assets</h4>
+        <p style="margin-bottom: 20px; font-size: 14px; color: #555;">
+            A wallet lets you store, send and receive digital assets like cryptocurrencies and NFTs.
+        </p>
+
+        <h4 style="margin: 10px 0 5px; font-size: 16px; color: black;">Your gateway to a new web</h4>
+        <p style="margin-bottom: 20px; font-size: 14px; color: #555;">
+            With your wallet, you can explore and interact with DeFi, NFTs, DAOs, and much more.
+        </p>
+        </div>
+
+        <!-- Get a wallet button at the bottom -->
+        <button class="wallet-btn" onclick="openPopup('get-wallet-popup')" style="margin-top: 20px;">
+        <span>Get a wallet</span>
+        </button>
+    </div>
+
+    <!-- get a wallet popup -->
+    <div id="get-wallet-popup" class="wallet-popup">
+        <div class="top-inner">
+            <button class="back" onclick="goBack('wallet-info')">&#8592;</button>
+            <button class="close" onclick="closePopup('get-wallet-popup')">&times;</button>
+        </div>
+        <h3>Get A Wallet</h3>
+        <p style="font-size: 14px; color: #555;">Choose a wallet below to visit the official website:</p>
+
+        <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+        <button class="wallet-btn" style="justify-content: center;" onclick="window.open('https://metamask.io/', '_blank')">MetaMask</button>
+        <button class="wallet-btn" style="justify-content: center;" onclick="window.open('https://trustwallet.com/', '_blank')">Trust Wallet</button>
+        <button class="wallet-btn" style="justify-content: center;" onclick="window.open('https://www.okx.com/web3', '_blank')">OKX Wallet</button>
+        <button class="wallet-btn" style="justify-content: center;" onclick="window.open('https://walletguide.walletconnect.network/?type=wallet', '_blank')">Explore All</button>
+        </div>
+    </div>
+
+    <!-- 4) 用户信息弹窗 => 当已经连接后，点击主按钮显示自己的地址+余额+退出 -->
+    <div id="user-info-popup" class="wallet-popup">
+        <div class="top-inner">
+            <button class="close" onclick="closePopup('user-info-popup')">&times;</button>
+        </div>
+        <h3>Your Wallet Info</h3>
+        <div id="user-address" class="info-line"></div>
+        <div id="user-balance" class="info-line"></div>
+        <button class="logout-btn" id="logout-btn">Disconnect</button>
+    </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h2>The Best Way to Explore Local Companionship Services Based on Blockchain</h2>
+            <p>Discover hidden gems and unique experiences with our local guide services!</p>
+            <a href="#services" class="btn">Learn More</a>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <h2>Our Services</h2>
+        <div class="service-list">
+            <form action="{{ url_for('travel') }}" method="post" class="service-item" style="cursor: pointer;">
+                <input type="hidden" name="type" value="travel">
+                <button type="submit">
+                    <h3>Travel Companion</h3>
+                    <p>Enjoy personalized travel experiences with a local guide, helping you explore new places with ease and comfort.</p>
+                </button>
+            </form>
+            <form action="{{ url_for('food_tours') }}" method="post" class="service-item" style="cursor: pointer;">
+                <input type="hidden" name="type" value="food_tours">
+                <button type="submit">
+                    <h3>Food Tours</h3>
+                    <p>Discover local flavors and hidden culinary gems, while being guided through the best restaurants and food spots.</p>
+                </button>
+            </form>
+            <form action="{{ url_for('medical') }}" method="post" class="service-item" style="cursor: pointer;">
+                <input type="hidden" name="type" value="medical">
+                <button type="submit">
+                    <h3>Medical Assistance</h3>
+                    <p>Get professional assistance during medical visits, from translation services to support with appointments and checkups.</p>
+                </button>
+            </form>
+        </div>
+    </section>
+
+
+
+    <section id="guides" class="guides">
+        <h2>Top Guides</h2>
+        <div class="guide-list">
+            <div class="guide-item">
+                <img src="{{ url_for('static', filename='pictures/guiders/guider1.jpg')}}" alt="Guide 1">
+                <h3>John Zhang</h3>
+                <p>Expert in cultural and historical tours.</p>
+            </div>
+            <div class="guide-item">
+                <img src="{{ url_for('static', filename='pictures/guiders/guider2.jpg')}}" alt="Guide 2">
+                <h3>Nina Lee</h3>
+                <p>Specializes in food and shopping experiences.</p>
+            </div>
+            <div class="guide-item">
+                <img src="{{ url_for('static', filename='pictures/guiders/guider3.jpg')}}" alt="Guide 3">
+                <h3>David Wang</h3>
+                <p>Outdoor adventure guide and exploration expert.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>Contact Us</h2>
+        <form>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+
+            <button type="submit">Send</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 EchoChain. All rights reserved.</p>
+    </footer>
+
+    <!-- AI Chat Button -->
+    <div id="ai-chat-button" onclick="openChat()">💬 AI Chat</div>
+
+    <!-- AI Chat Box -->
+    <div id="ai-chat-box">
+        <div id="ai-chat-header">
+            <span>AI Chat Assistant</span>
+            <button onclick="closeChat()">✖</button>
+        </div>
+        <div id="ai-chat-messages">
+            <div class="message bot">Welcome! Tell me your needs and preferences, and I'll recommend the right services for you.</div>
+        </div>
+        <input type="text" id="ai-chat-input" placeholder="Please enter...">
+        <button id="ai-chat-send" onclick="sendMessage()">Send</button>
+    </div>
+
+    <script src="static/wallet-connect.js"></script>
+    <script>
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+
+        function openChat() {
+            document.getElementById("ai-chat-box").style.display = "flex";
+        }
+
+        function closeChat() {
+            document.getElementById("ai-chat-box").style.display = "none";
+        }
+
+        function sendMessage() {
+            let input = document.getElementById("ai-chat-input").value;
+            if (input.trim() === "") return;
+
+            let chatMessages = document.getElementById("ai-chat-messages");
+
+            let userMessage = document.createElement("div");
+            userMessage.classList.add("message", "user");
+            userMessage.innerText = input;
+            chatMessages.appendChild(userMessage);
+
+            document.getElementById("ai-chat-input").value = "";
+
+            setTimeout(() => {
+                let botMessage = document.createElement("div");
+                botMessage.classList.add("message", "bot");
+                botMessage.innerText = "I'm recommending the best service for you...";
+                chatMessages.appendChild(botMessage);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

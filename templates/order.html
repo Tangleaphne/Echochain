@@ -173,73 +173,39 @@
     </div>
     <nav>
         <ul>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
         </ul>
     </nav>
 </header>
 
 <div class="content">
-    <h2>Your Orders</h2>
-
-    <!-- 选择轴 -->
-    <div class="toggle-axis">
-        <div class="left selected" id="providerTab" onclick="showSection('provider')">Service Provider</div>
-        <div class="right" id="receiverTab" onclick="showSection('receiver')">Service Receiver</div>
-    </div>
-
-    <!-- 服务者订单表格 -->
-    <div id="provider" class="content-section active">
-        <h3>Orders as a Service Provider</h3>
+    <h2>Orders</h2>
         <table>
             <tr>
                 <th>Order ID</th>
-                <th>Service Type</th>
+                <th>Transaction Time</th>
+                <th>Wallet Address</th>
+                <th>Guider ID</th>
+                <th>Tour Type</th>
                 <th>Start Date & Time</th>
                 <th>End Date & Time</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <!-- <th>Status</th> -->
             </tr>
+            {% for order in orders %}
             <tr>
-                <td>#12345</td>
-                <td>Guide Service</td>
-                <td>23/09/2024, 09:00 am</td>
-                <td>23/09/2024, 2:00 pm</td>
-                <td>Confirmed</td>
-                <td>
-                    <a href="view-order.html" class="btn">View</a>
-                </td>
+                <td>{{ order["id"] }}</td>
+                <td>{{ order["transaction_time"] }}</td>
+                <td>{{ order["wallet_address"] }}</td>
+                <td>{{ order["guider_id"] }}</td>
+                <td>{{ order["tour_type"] }}</td>
+                <td>{{ order["start_time"].replace('T', ' ').split(' ')[0] }} <br>
+                    {{ order["start_time"].replace('T', ' ').split(' ')[1] }}</td>
+                <td>{{ order["end_time"].replace('T', ' ').split(' ')[0] }} <br>
+                    {{ order["end_time"].replace('T', ' ').split(' ')[1] }}</td>
+                <!-- <td>{{ order["status"] }}</td> -->
             </tr>
-            <!-- More orders as a service provider -->
+            {% endfor %}
         </table>
-    </div>
-
-    <!-- 被服务者订单表格 -->
-    <div id="receiver" class="content-section">
-        <h3>Orders as a Service Receiver</h3>
-        <table>
-            <tr>
-                <th>Order ID</th>
-                <th>Service Type</th>
-                <th>Start Date & Time</th>
-                <th>End Date & Time</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-            <tr>
-                <td>#67890</td>
-                <td>Food Tour</td>
-                <td>22/09/2024, 10:00 am</td>
-                <td>22/09/2024, 1:00 pm</td>
-                <td>In Progress</td>
-                <td>
-                    <a href="view-order.html" class="btn">View</a>
-                    <a href="cancel-order.html" class="btn btn-cancel">Cancel</a>
-                </td>
-            </tr>
-            <!-- More orders as a service receiver -->
-        </table>
-    </div>
-
 </div>
 
 <footer>

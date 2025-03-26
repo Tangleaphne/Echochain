@@ -1,0 +1,241 @@
+/* 让 header 仍然固定在顶部 */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1E1E1E;
+    color: cyan;
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+    border-bottom: 2px solid #00FFEA;
+}
+
+/* 确保 header 内部元素正确排列 */
+.header-container {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center; /* 让 logo 居中 */
+    align-items: center;
+    position: relative; /* 让 Wallet Connect 绝对定位 */
+}
+
+/* 让 Logo 绝对居中 */
+.logo-container {
+    flex: 1;
+    text-align: center;
+}
+
+/* Logo 样式，保持你想要的字体 */
+.logo {
+    font-size: 42px;
+    font-weight: bold;
+    color: #00FFEA;
+    letter-spacing: 2px;
+}
+
+/* Wallet Connect 按钮区域，固定在右上角 */
+/* 仅影响 Wallet Connect 按钮 */
+.wallet-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 220px; /* 固定宽度 */
+    height: 50px; /* 固定高度 */
+    background-color: #00FFEA; /* 适应整体蓝色主题 */
+    color: black;
+    border: 2px solid white;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 255, 234, 0.5);
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* 省略地址，保持固定大小 */
+#wallet-text {
+    max-width: 200px; /* 限制最大宽度 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+/* 按钮悬停效果 */
+.wallet-btn:hover {
+    background-color: #FFD700;
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+}
+
+/* 保持 Wallet Connect 按钮在右上角 */
+.wallet-section {
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.wallet-popup, .wallet-list, .wallet-info, .wallet-get {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+}
+.wallet-popup button, .wallet-list button, .wallet-info button, .wallet-get button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.wallet-popup .close, .wallet-list .close, .wallet-info .close, .wallet-get .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    color: red;
+}
+
+.wallet-btn {
+    background-color: #00f4ff;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .wallet-btn:hover {
+    opacity: 0.8;
+  }
+  .wallet-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #f9f9f9;
+    color: black;
+    padding: 25px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 450px;
+    z-index: 9999;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    display: none;
+  }
+  .wallet-popup.active {
+    display: block;
+  }
+  .wallet-popup h3 {
+    margin-top: 10px;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .close {
+    position: absolute !important;
+    top: 10px !important;
+    right: 15px !important;
+    cursor: pointer !important;
+    font-size: 15px !important;
+    color: #555 !important;
+    background: none !important;
+    border: none !important;
+    width: 10% !important;
+    box-shadow: none !important;  /* 取消阴影 */
+  }
+  .back {
+    position: absolute !important;
+    top: 10px !important;
+    left: 15px !important;
+    cursor: pointer !important;
+    font-size: 15px !important;
+    color: #555 !important;
+    background: none !important;
+    border: none !important;
+    width: 10% !important;
+    box-shadow: none !important;  /* 取消阴影 */
+  }
+
+  /* 美化搜索框 */
+  .wallet-search {
+    width: 100%;
+    border-radius: 15px;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  .wallet-search:focus {
+    outline: 2px solid #00f4ff;
+  }
+
+  /* 卡片式钱包列表 */
+  #wallet-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+  .wallet-card {
+    background: #ffffff;
+    color: #333;
+    border-radius: 15px;
+    width: 110px;
+    padding: 15px 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .wallet-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+  }
+  /* 余额和地址展示 */
+  .info-line {
+    margin: 10px 0;
+    font-size: 14px;
+    text-align: center;
+    word-wrap: break-word;
+  }
+  /* Disconnect/Exit 按钮 */
+  .logout-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-weight: bold;
+    margin-top: 15px;
+    cursor: pointer;
+  }

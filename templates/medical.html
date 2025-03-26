@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultural Tours - Service Providers</title>
+    <!-- Ethers.js & WalletConnect Provider & Web3Modal (UMD builds) -->
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <script src="https://unpkg.com/@walletconnect/web3-provider@1.6.6/dist/umd/index.min.js"></script>
+
+    <!-- Fortmatic -->
+    <script src="https://cdn.jsdelivr.net/npm/fortmatic/dist/fortmatic.js"></script>
+    <!-- Torus -->
+    <script src="https://cdn.jsdelivr.net/npm/@toruslabs/torus-embed@1.16.3/dist/torus.umd.min.js"></script>
+
+    <!-- Web3Modal -->
+    <script src="https://unpkg.com/web3modal@1.9.5/dist/index.js"></script>
+    <!-- 引入外部CSS -->
+    <link rel="stylesheet" href="static/wallet-connect-button.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        /* header {
+            background-color: #1E1E1E;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 2px solid #00FFEA;
+        } */
+
+        header .logo h1 {
+            font-size: 42px;
+            font-weight: bold;
+            color: #00FFEA;
+            letter-spacing: 2px;
+        }
+
+        /* 让导航栏仍然在 header 内，并与蓝线保持间距 */
+        nav {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px; /* 让导航栏稍微下移，避免紧贴标题 */
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: #00FFEA;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #FFD700;
+        }
+
+        /* Hero 部分带有倾斜图片的背景 */
+        .hero {
+            height: 400px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            overflow: hidden;
+            background-color: #121212;
+            margin-top: 220px; /* 调整这个数值，让内容向下移动 */
+        }
+
+        .hero-content h2 {
+            font-size: 48px;
+            z-index: 10; /* 确保文字位于最前面 */
+            margin-bottom: 20px;
+            color: #00FFEA;
+            text-shadow: 2px 2px 8px rgba(0, 255, 234, 0.8);
+        }
+
+       /* 图片背景部分 */
+       .hero-images {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            overflow: hidden;
+            z-index: 1; /* 确保图片在文字下方 */
+        }
+
+        .hero-images img {
+            width: 250px;
+            height: 350px;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            opacity: 0.8; /* 使图片透明度降低，突出文字 */
+        }
+        /* 不同图片的不同倾斜角度 */
+        .hero-images img:nth-child(1) {
+            transform: rotate(-10deg);
+        }
+
+        .hero-images img:nth-child(2) {
+            transform: rotate(10deg);
+        }
+
+        .hero-images img:nth-child(3) {
+            transform: rotate(-20deg);
+        }
+
+        .hero-images img:nth-child(4) {
+            transform: rotate(15deg);
+            z-index: 1;
+        }
+
+
+
+        /* 悬停时旋转回正并放大 */
+        .hero-images img:hover {
+            transform: rotate(0deg) scale(1.1);
+            box-shadow: 0 12px 24px rgba(0, 255, 255, 0.5);
+            opacity: 1;
+        }
+
+        .content {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #00FFEA;
+        }
+
+        .provider-list {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .provider-item {
+            background-color: #2D2D2D;
+            padding: 20px;
+            margin: 20px;
+            width: 22%;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            text-align: left;
+        }
+
+        .provider-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 30px rgba(0, 255, 234, 0.5);
+        }
+
+        .provider-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .provider-item h3 {
+            font-size: 22px;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .provider-item p {
+            font-size: 16px;
+            color: #ccc;
+        }
+
+        .provider-item .price {
+            font-size: 18px;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #00FFEA;
+            color: #121212;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 255, 234, 0.5);
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background-color: #FFD700;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+        }
+
+        footer {
+            background-color: #1E1E1E;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-top: 2px solid #00FFEA;
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        /* 设置Hero部分的基本样式 */
+        .hero {
+            height: 400px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            overflow: hidden;
+            background-color: #121212;
+        }
+
+        /* Hero content - 确保文字内容在图片之上 */
+        .hero-content {
+            position: relative;
+            z-index: 10; /* 高 z-index 确保文字显示在图片之上 */
+        }
+
+        .hero-content h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #00FFEA;
+            text-shadow: 2px 2px 8px rgba(0, 255, 234, 0.8);
+        }
+
+        /* 图片背景部分 */
+        .hero-images {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            overflow: hidden;
+            z-index: 1; /* 确保图片在文字下方 */
+        }
+
+        .hero-images img {
+            width: 250px;
+            height: 350px;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            opacity: 0.8; /* 使图片透明度降低，突出文字 */
+        }
+
+        /* 悬停时旋转回正并放大 */
+        .hero-images img:hover {
+            transform: rotate(0deg) scale(1.1);
+            box-shadow: 0 12px 24px rgba(0, 255, 255, 0.5);
+            opacity: 1;
+        }
+        /* 单独为 Home 链接设置额外的间距 */
+        nav ul li a:first-child {
+                    margin-top: 10px; /* 控制 Home 链接向下移动 */
+        }
+
+        /* AI Chat Button */
+        #ai-chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #00FFEA;
+            color: #121212;
+            padding: 12px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 255, 234, 0.5);
+            transition: transform 0.2s ease;
+        }
+
+        #ai-chat-button:hover {
+            transform: scale(1.1);
+        }
+
+        /* AI Chat Box */
+        #ai-chat-box {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 320px;
+            background: #1E1E1E;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 255, 234, 0.3);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #ai-chat-header {
+            background: #00FFEA;
+            color: #121212;
+            padding: 10px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #ai-chat-header button {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        #ai-chat-messages {
+            padding: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .bot {
+            background: #FFD700;
+            color: #121212;
+            align-self: flex-start;
+        }
+
+        .user {
+            background: #00FFEA;
+            color: #121212;
+            align-self: flex-end;
+        }
+
+        #ai-chat-input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: #333;
+            color: white;
+        }
+
+        #ai-chat-send {
+            background: #00FFEA;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-container">
+        <div class="logo-container">
+            <h1 class="logo">Medical Assistance</h1>
+        </div>
+
+        <!-- Wallet Connect 按钮 -->
+        <div class="wallet-section">
+            <!-- 主按钮：如果未连接 -> 显示Custom Connect；若已连接 -> 显示地址 -->
+            <button id="wallet-main-btn" class="wallet-btn">
+                <span>💳</span>
+                <span id="wallet-main-text">Wallet Connect</span>
+            </button>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('publish_service') }}" class="btn">Publish Service</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- All other popups / modals -->
+    <!-- 1) 自定义弹窗, 未连接时显示“all wallets”、“get started”，左上角问号可以跳转到 #wallet-info -->
+    <div id="custom-popup" class="wallet-popup">
+        <button class="back" onclick="openPopup('wallet-info')">❓</button>
+        <button class="close" onclick="closePopup('custom-popup')">&times;</button>
+        <h3>Connect Wallet</h3>
+
+        <!-- \"All Wallets\" => open #wallet-list -->
+        <button class="wallet-btn" id="all-wallets-btn" style="margin-bottom: 12px;">
+        <span>📚</span>
+        <span>All Wallets</span>
+        </button>
+
+        <!-- \"Get Started\" => link to wc wallet guide -->
+        <button class="wallet-btn" id="get-started-btn">
+        <span>🚀</span>
+        <span>Get Started</span>
+        </button>
+    </div>
+
+    <!-- 2) All Wallets Popup => 6 wallets + search bar => connect via web3Modal -->
+    <div id="wallet-list" class="wallet-popup">
+        <div class="top-inner">
+            <button class="back" onclick="goBack('custom-popup')">&#8592;</button>
+            <button class="close" onclick="closePopup('wallet-list')">&times;</button>
+        </div>
+        <h3>All Wallets</h3>
+
+        <input
+        type="text"
+        id="wallet-search"
+        class="wallet-search"
+        placeholder="Search wallets..."
+        oninput="filterWallets()"
+        />
+        <div id="wallet-container"></div>
+    </div>
+
+    <!-- 3) What is a Wallet? -->
+    <div id="wallet-info" class="wallet-popup">
+        <div class="top-inner">
+            <button class="back" onclick="goBack('custom-popup')">&#8592;</button>
+            <button class="close" onclick="closePopup('wallet-info')">&times;</button>
+        </div>
+        <h3>What Is A Wallet?</h3>
+        <!-- The advanced info with \"One login for all of web3\" etc. -->
+        <div style="text-align: left; margin-top: 20px; color: #333;">
+        <h4 style="margin: 10px 0 5px; font-size: 16px; color: black;">One login for all of web3</h4>
+        <p style="margin-bottom: 20px; font-size: 14px; color: #555;">
+            Log in to any app by connecting your wallet. Say goodbye to countless passwords!
+        </p>
+
+        <h4 style="margin: 10px 0 5px; font-size: 16px; color: black;">A home for your digital assets</h4>
+        <p style="margin-bottom: 20px; font-size: 14px; color: #555;">
+            A wallet lets you store, send and receive digital assets like cryptocurrencies and NFTs.
+        </p>
+
+        <h4 style="margin: 10px 0 5px; font-size: 16px; color: black;">Your gateway to a new web</h4>
+        <p style="margin-bottom: 20px; font-size: 14px; color: #555;">
+            With your wallet, you can explore and interact with DeFi, NFTs, DAOs, and much more.
+        </p>
+        </div>
+
+        <!-- Get a wallet button at the bottom -->
+        <button class="wallet-btn" onclick="openPopup('get-wallet-popup')" style="margin-top: 20px;">
+        <span>Get a wallet</span>
+        </button>
+    </div>
+
+    <!-- get a wallet popup -->
+    <div id="get-wallet-popup" class="wallet-popup">
+        <div class="top-inner">
+            <button class="back" onclick="goBack('wallet-info')">&#8592;</button>
+            <button class="close" onclick="closePopup('get-wallet-popup')">&times;</button>
+        </div>
+        <h3>Get A Wallet</h3>
+        <p style="font-size: 14px; color: #555;">Choose a wallet below to visit the official website:</p>
+
+        <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+        <button class="wallet-btn" style="justify-content: center;" onclick="window.open('https://metamask.io/', '_blank')">MetaMask</button>
+        <button class="wallet-btn" style="justify-content: center;" onclick="window.open('https://trustwallet.com/', '_blank')">Trust Wallet</button>
+        <button class="wallet-btn" style="justify-content: center;" onclick="window.open('https://www.okx.com/web3', '_blank')">OKX Wallet</button>
+        <button class="wallet-btn" style="justify-content: center;" onclick="window.open('https://walletguide.walletconnect.network/?type=wallet', '_blank')">Explore All</button>
+        </div>
+    </div>
+
+    <!-- 4) 用户信息弹窗 => 当已经连接后，点击主按钮显示自己的地址+余额+退出 -->
+    <div id="user-info-popup" class="wallet-popup">
+        <div class="top-inner">
+            <button class="close" onclick="closePopup('user-info-popup')">&times;</button>
+        </div>
+        <h3>Your Wallet Info</h3>
+        <div id="user-address" class="info-line"></div>
+        <div id="user-balance" class="info-line"></div>
+        <button class="logout-btn" id="logout-btn">Disconnect</button>
+    </div>
+
+<section class="hero">
+    <div class="hero-content">
+        <h2>Professional Medical Assistance & Support</h2>
+    </div>
+    <div class="hero-images">
+        <img src="{{ url_for('static', filename='pictures/medicine/medicine1.jpg')}}" alt="Travel Image 1">
+        <img src="{{ url_for('static', filename='pictures/medicine/medicine2.jpg')}}" alt="Travel Image 2">
+        <img src="{{ url_for('static', filename='pictures/medicine/medicine3.jpg')}}" alt="Travel Image 3">
+        <img src="{{ url_for('static', filename='pictures/medicine/medicine4.jpg')}}" alt="Travel Image 4">
+    </div>
+</section>
+
+<section class="content">
+    <h2>Medical Assistance Providers</h2>
+    <div class="provider-list">
+        <div class="provider-item">
+            <img src="{{ url_for('static', filename='pictures/guiders/guider1.jpg')}}" alt="Assistant 1">
+            <h3>Dr. John Smith</h3>
+            <p>Experienced in medical consultations and patient support, providing translation services.</p>
+            <p class="price">Price: 0.15 ETH/hour</p>
+            <div class="btn-container">
+                <a href="{{ url_for('booking') }}?tour_type=Medical%20Assistance&guider_id=5" class="btn">Book Now</a>
+                <a href="{{ url_for('chat_with_guider', guider_id=5) }}" class="btn">Chat</a>
+            </div>
+        </div>
+        <div class="provider-item">
+            <img src="{{ url_for('static', filename='pictures/guiders/guider2.jpg')}}" alt="Assistant 2">
+            <h3>Anna Johnson</h3>
+            <p>Specializes in elderly care, providing professional assistance during hospital visits and checkups.</p>
+            <p class="price">Price: 0.12 ETH/hour</p>
+            <div class="btn-container">
+                <a href="{{ url_for('booking') }}?tour_type=Medical%20Assistance&guider_id=6" class="btn">Book Now</a>
+                <a href="{{ url_for('chat_with_guider', guider_id=6) }}" class="btn">Chat</a>
+            </div>
+        </div>
+        <div class="provider-item">
+            <img src="{{ url_for('static', filename='pictures/guiders/guider3.jpg')}}" alt="Assistant 3">
+            <h3>Emily White</h3>
+            <p>Offers health and wellness support, assisting with scheduling appointments and medical guidance.</p>
+            <p class="price">Price: 0.10 ETH/hour</p>
+            <div class="btn-container">
+                <a href="{{ url_for('booking') }}?tour_type=Medical%20Assistance&guider_id=7" class="btn">Book Now</a>
+                <a href="{{ url_for('chat_with_guider', guider_id=7) }}" class="btn">Chat</a>
+            </div>
+        </div>
+        <div class="provider-item">
+            <img src="{{ url_for('static', filename='pictures/guiders/guider4.jpg')}}" alt="Assistant 4">
+            <h3>Michael Lee</h3>
+            <p>Provides patient transport and accompaniment, ensuring smooth medical visits for individuals in need.</p>
+            <p class="price">Price: 0.09 ETH/hour</p>
+            <div class="btn-container">
+                <a href="{{ url_for('booking') }}?tour_type=Medical%20Assistance&guider_id=8" class="btn">Book Now</a>
+                <a href="{{ url_for('chat_with_guider', guider_id=8) }}" class="btn">Chat</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2024 EchoChain. All rights reserved.</p>
+</footer>
+
+<!-- AI Chat Button -->
+<div id="ai-chat-button" onclick="openChat()">💬 AI Chat</div>
+
+<!-- AI Chat Box -->
+<div id="ai-chat-box">
+    <div id="ai-chat-header">
+        <span>AI Chat Assistant</span>
+        <button onclick="closeChat()">✖</button>
+    </div>
+    <div id="ai-chat-messages">
+        <div class="message bot">Welcome! Tell me your needs and preferences, and I'll recommend the right services for you.</div>
+    </div>
+    <input type="text" id="ai-chat-input" placeholder="Please enter...">
+    <button id="ai-chat-send" onclick="sendMessage()">Send</button>
+</div>
+
+<script src="static/wallet-connect.js"></script>
+<script>
+    function navigateTo(url) {
+        window.location.href = url;
+    }
+
+    function openChat() {
+        document.getElementById("ai-chat-box").style.display = "flex";
+    }
+
+    function closeChat() {
+        document.getElementById("ai-chat-box").style.display = "none";
+    }
+
+    function sendMessage() {
+        let input = document.getElementById("ai-chat-input").value;
+        if (input.trim() === "") return;
+
+        let chatMessages = document.getElementById("ai-chat-messages");
+
+        let userMessage = document.createElement("div");
+        userMessage.classList.add("message", "user");
+        userMessage.innerText = input;
+        chatMessages.appendChild(userMessage);
+
+        document.getElementById("ai-chat-input").value = "";
+
+        setTimeout(() => {
+            let botMessage = document.createElement("div");
+            botMessage.classList.add("message", "bot");
+            botMessage.innerText = "I'm recommending the best service for you...";
+            chatMessages.appendChild(botMessage);
+        }, 1000);
+    }
+</script>
+
+</body>
+</html>
+
